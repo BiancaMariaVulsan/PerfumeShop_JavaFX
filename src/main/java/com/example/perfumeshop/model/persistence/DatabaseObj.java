@@ -176,7 +176,7 @@ public class DatabaseObj<T> {
         return strVal;
     }
 
-    private void appendField(T t, Field field, StringBuilder sb){
+    protected void appendField(T t, Field field, StringBuilder sb){
         if(field.getType().isAssignableFrom(StringProperty.class)){
             sb.append("\'");
             sb.append(propertyToString(t, field));
@@ -187,7 +187,7 @@ public class DatabaseObj<T> {
         }
     }
 
-    private String createInsertQuery(T t) {
+    protected String createInsertQuery(T t) {
         StringBuilder sb = new StringBuilder();
         sb.append("INSERT INTO ");
         sb.append(type.getSimpleName());
@@ -212,7 +212,7 @@ public class DatabaseObj<T> {
         return sb.toString();
     }
 
-    private String createUpdateQuery(T t) {
+    protected String createUpdateQuery(T t) {
         StringBuilder sb = new StringBuilder();
         sb.append("UPDATE ");
         sb.append(type.getSimpleName());

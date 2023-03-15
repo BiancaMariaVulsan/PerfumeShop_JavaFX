@@ -17,6 +17,23 @@ import java.util.List;
 
 public class PersonPersistence extends DatabaseObj<Person> {
 
+    protected String createUpdateQuery(Person person) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("UPDATE person SET firstname='");
+        sb.append(person.getFirstName());
+        sb.append("',lastname='");
+        sb.append(person.getLastName());
+        sb.append("',username='");
+        sb.append(person.getUsername());
+        sb.append("',password='");
+        sb.append(person.getPassword());
+        sb.append("',role=");
+        sb.append(person.getRole().ordinal());
+        sb.append(" WHERE id=");
+        sb.append(person.getId());
+        return sb.toString();
+    }
+
     protected List<Person> createObjects(ResultSet resultSet) {
         try{
             List<Person> persons = new ArrayList<Person>();
@@ -25,10 +42,11 @@ public class PersonPersistence extends DatabaseObj<Person> {
                 int id = resultSet.getInt("id");
                 String firstName = resultSet.getString("firstName");
                 String lastName = resultSet.getString("lastName");
-                String cnp = resultSet.getString("cnp");
+                String username = resultSet.getString("username");
+                String password = resultSet.getString("password");
                 int role_nr = resultSet.getInt("role");
                 Role role = Role.values()[role_nr];
-                Person person = new Person(id, firstName, lastName, cnp, role);
+                Person person = new Person(id, firstName, lastName, role, username, password);
                 persons.add(person);
             }
             return persons;
@@ -39,7 +57,7 @@ public class PersonPersistence extends DatabaseObj<Person> {
     }
 
     public boolean checkIfObjectAlreadyExists(Person person) {
-        String query = "SELECT COUNT (*) AS counter FROM person WHERE cnp = \'"  + person.getCnp() + "\'";
+        String query = "SELECT COUNT (*) AS counter FROM person WHERE username = \'"  + person.getUsername() + "\'";
 
         Connection connection = null;
         PreparedStatement statement = null;

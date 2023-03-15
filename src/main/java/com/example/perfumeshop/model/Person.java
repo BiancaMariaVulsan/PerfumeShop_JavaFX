@@ -9,29 +9,34 @@ public class Person {
     private final IntegerProperty id =  new SimpleIntegerProperty();
     private final StringProperty firstName =  new SimpleStringProperty();
     private final StringProperty lastName = new SimpleStringProperty();
-    private final StringProperty cnp = new SimpleStringProperty();
+    private final StringProperty username = new SimpleStringProperty();
+    private final StringProperty password = new SimpleStringProperty();
     private Role role;
 
-    public Person(int id, String firstName, String lastName, String cnp) {
+    public Person(int id, String firstName, String lastName, String username, String password) {
         this.id.set(id);
         this.firstName.set(firstName);
         this.lastName.set(lastName);
-        this.cnp.set(cnp);
-        role = Role.EMPLOYEE;
+        this.role = Role.EMPLOYEE;
+        this.username.set(username);
+        this.password.set(password);
     }
 
-    public Person(int id, String firstName, String lastName, String cnp, Role role) {
+    public Person(int id, String firstName, String lastName, Role role, String username, String password) {
         this.id.set(id);
         this.firstName.set(firstName);
         this.lastName.set(lastName);
-        this.cnp.set(cnp);
         this.role = role;
+        this.username.set(username);
+        this.password.set(password);
     }
 
-    public Person(String firstName, String lastName, String cnp) {
+    public Person(String firstName, String lastName, String username, String password) {
         this.firstName.set(firstName);
         this.lastName.set(lastName);
-        this.cnp.set(cnp);
+        this.username.set(username);
+        this.password.set(password);
+        this.role = Role.EMPLOYEE;
     }
 
     public Person() {}
@@ -72,17 +77,6 @@ public class Person {
         this.lastName.set(lastName);
     }
 
-    public String getCnp() {
-        return cnp.get();
-    }
-
-    public StringProperty cnpProperty() {
-        return cnp;
-    }
-
-    public void setCnp(String cnp) {
-        this.cnp.set(cnp);
-    }
 
     public Role getRole() {
         return role;
@@ -92,13 +86,36 @@ public class Person {
         this.role = role;
     }
 
+    public String getUsername() {
+        return username.get();
+    }
+
+    public StringProperty usernameProperty() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username.set(username);
+    }
+
+    public String getPassword() {
+        return password.get();
+    }
+
+    public StringProperty passwordProperty() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password.set(password);
+    }
+
     @Override
     public String toString() {
         return "Client{" +
                 "id=" + id +
                 ", firstName='" + firstName.get() + '\'' +
                 ", lastName='" + lastName.get() + '\'' +
-                ", cnp='" + cnp.get() + '\'' +
                 '}';
     }
 }
