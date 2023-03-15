@@ -4,11 +4,10 @@ import com.example.perfumeshop.presenter.LoginPresenter;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.util.Callback;
 
-public class HelloView {
+public class LogInView {
     @FXML
     private TextField usernameTextField;
     @FXML
@@ -21,22 +20,13 @@ public class HelloView {
     boolean isAdmin = true;
     boolean isEmployee = true;
 
+    private final LoginPresenter loginPresenter = new LoginPresenter();
+
     @FXML
     public void initialize() {
         registerButton.setOnAction(e -> {
-            Callback<Class<?>, Object> controllerFactory = type -> {
-                if (type == RegisterView.class) {
-                    return new RegisterView();
-                } else {
-                    try {
-                        return type.newInstance();
-                    } catch (Exception exc) {
-                        System.err.println("Could not load register controller " + type.getName());
-                        throw new RuntimeException(exc);
-                    }
-                }
-            };
-            View.loadFXML("register-view.fxml", controllerFactory);
+            Callback<Class<?>, Object> controllerFactory = loginPresenter::register;
+            View.loadFXML("/com/example/perfumeshop/register-view.fxml", controllerFactory);
         });
         signInButton.setOnAction(actionEvent -> {
             if (usernameTextField.getText().isEmpty() || passwordTextField.getText().isEmpty())

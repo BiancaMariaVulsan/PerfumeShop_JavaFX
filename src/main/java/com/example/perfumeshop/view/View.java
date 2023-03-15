@@ -1,8 +1,5 @@
 package com.example.perfumeshop.view;
 
-import javafx.beans.property.ReadOnlyFloatWrapper;
-import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,10 +17,11 @@ public class View {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(View.class.getResource(fxmlFile));
             fxmlLoader.setControllerFactory(controllerFactory);
-            fxmlLoader.setLocation(View.class.getResource(fxmlFile));
+            var path = View.class.getResource(fxmlFile);
+            fxmlLoader.setLocation(path);
             programRoot = fxmlLoader.load();
             Scene programScene = new Scene(programRoot);
-            String css = View.class.getResource("start.css").toExternalForm();
+            String css = View.class.getResource("/com/example/perfumeshop/start.css").toExternalForm();
             programScene.getStylesheets().add(css);
             programStage.setTitle("Running Program");
             programStage.setScene(programScene);

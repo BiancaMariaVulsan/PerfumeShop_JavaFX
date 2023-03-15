@@ -69,7 +69,7 @@
                     <graphic>
                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@./verify.png" />
+                                <Image url="@verify.png" />
                             </image>
                         </ImageView>
                     </graphic>
@@ -81,7 +81,7 @@
                     <graphic>
                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@./remove-button.png" />
+                                <Image url="@remove-button.png" />
                             </image>
                         </ImageView>
                     </graphic>
