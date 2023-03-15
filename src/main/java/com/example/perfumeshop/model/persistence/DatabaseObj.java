@@ -1,4 +1,4 @@
-package com.example.perfumeshop.persistence;
+package com.example.perfumeshop.model.persistence;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
@@ -16,6 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -49,7 +50,7 @@ public class DatabaseObj<T> {
         }
     }
 
-    private List<T> createObjects(ResultSet resultSet) {
+    protected List<T> createObjects(ResultSet resultSet) {
         List<T> list = new ArrayList<T>();
         try {
             while (resultSet.next()) {
@@ -144,7 +145,7 @@ public class DatabaseObj<T> {
         sb.append("SELECT ");
         sb.append("*");
         sb.append(" FROM ");
-        sb.append(type.getSimpleName()); // we consier that the name of the table is the same as the name of the class
+        sb.append(type.getSimpleName().toLowerCase(Locale.ROOT)); // we consier that the name of the table is the same as the name of the class
         if(field != null) {
             sb.append(" WHERE " + field + " =?");
         }

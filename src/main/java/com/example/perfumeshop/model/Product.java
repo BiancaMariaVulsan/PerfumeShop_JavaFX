@@ -5,7 +5,7 @@ import javafx.beans.property.*;
 public class Product {
         private final IntegerProperty id = new SimpleIntegerProperty();
         private final StringProperty name = new SimpleStringProperty();
-        private final IntegerProperty quantity = new SimpleIntegerProperty();
+        private final IntegerProperty quantity = new SimpleIntegerProperty(); //availability
         private final DoubleProperty price = new SimpleDoubleProperty();
 
         public Product(int id, String name, int quantity, double price) {

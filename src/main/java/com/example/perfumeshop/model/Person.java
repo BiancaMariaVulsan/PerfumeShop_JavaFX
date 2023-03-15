@@ -10,12 +10,22 @@ public class Person {
     private final StringProperty firstName =  new SimpleStringProperty();
     private final StringProperty lastName = new SimpleStringProperty();
     private final StringProperty cnp = new SimpleStringProperty();
+    private Role role;
 
     public Person(int id, String firstName, String lastName, String cnp) {
         this.id.set(id);
         this.firstName.set(firstName);
         this.lastName.set(lastName);
         this.cnp.set(cnp);
+        role = Role.EMPLOYEE;
+    }
+
+    public Person(int id, String firstName, String lastName, String cnp, Role role) {
+        this.id.set(id);
+        this.firstName.set(firstName);
+        this.lastName.set(lastName);
+        this.cnp.set(cnp);
+        this.role = role;
     }
 
     public Person(String firstName, String lastName, String cnp) {
@@ -72,6 +82,14 @@ public class Person {
 
     public void setCnp(String cnp) {
         this.cnp.set(cnp);
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     @Override

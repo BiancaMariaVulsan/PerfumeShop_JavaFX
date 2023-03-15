@@ -1,11 +1,11 @@
-package com.example.perfumeshop.persistence;
+package com.example.perfumeshop.model.persistence;
 
 import java.sql.*;
 import java.util.Properties;
 
 public class ConnectionFactory {
-    private static final String url = "jdbc:postgresql://localhost:5432/order_management";
-    private static ConnectionFactory singleInstance = new ConnectionFactory();
+    private static final String url = "jdbc:postgresql://localhost:5432/parfume_shop";
+    private static final ConnectionFactory singleInstance = new ConnectionFactory();
 
     private Connection connect() {
         Properties props = new Properties();

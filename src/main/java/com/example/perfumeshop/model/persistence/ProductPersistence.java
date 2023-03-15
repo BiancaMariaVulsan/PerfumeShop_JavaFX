@@ -1,4 +1,4 @@
-package com.example.perfumeshop.persistence;
+package com.example.perfumeshop.model.persistence;
 
 import com.example.perfumeshop.model.Product;
 
