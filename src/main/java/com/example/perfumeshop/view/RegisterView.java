@@ -1,16 +1,17 @@
 package com.example.perfumeshop.view;
 
+import com.example.perfumeshop.presenter.IRegisterPresenter;
+import com.example.perfumeshop.presenter.RegisterPresenter;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class RegisterView implements Initializable
+public class RegisterView implements Initializable, IRegisterView
 {
     @FXML
     private ProgressIndicator progressIndicator;
@@ -21,32 +22,25 @@ public class RegisterView implements Initializable
     @FXML
     private TextField passwordTextField;
     @FXML
+    private TextField firstNameTextField;
+    @FXML
+    private TextField lastNameTextField;
+    @FXML
     private Button exitButton;
     @FXML
     private Button registerButton;
+    
+    private final IRegisterPresenter registerPresenter;
+
+    public RegisterView() {
+        this.registerPresenter = new RegisterPresenter(this);
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         registerButton.setDisable(true);
-        ArrayList<TextField> textFields = new ArrayList<>();
-        textFields.add(usernameTextField);
-        textFields.add(passwordTextField);
+        registerPresenter.setProgressIndicator();
 
-        for (TextField textField : textFields) {
-            textField.textProperty().addListener((observable, oldValue, newValue) -> {
-
-                int numberOfNonEmpty  = 0;
-                System.out.println("Action");
-                for (TextField textField1 : textFields)
-                    if (!textField1.getText().isEmpty())
-                    {
-                        numberOfNonEmpty++;
-                    }
-                System.out.println(numberOfNonEmpty);
-                progressIndicator.setProgress((double) numberOfNonEmpty/2);
-            });
-
-        }
         exitButton.setOnAction(actionEvent -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Exit");
@@ -59,7 +53,6 @@ public class RegisterView implements Initializable
                 Stage stage = (Stage) registerButton.getScene().getWindow();
                 stage.close();
             }
-
         });
         termsCheckBox.setOnAction(actionEvent -> {
             if (termsCheckBox.isSelected())
@@ -71,7 +64,69 @@ public class RegisterView implements Initializable
             }
         });
         registerButton.setOnAction(actionEvent -> {
-
+            registerPresenter.register();
         });
+    }
+    public ProgressIndicator getProgressIndicator() {
+        return progressIndicator;
+    }
+
+    public void setProgressIndicator(ProgressIndicator progressIndicator) {
+        this.progressIndicator = progressIndicator;
+    }
+
+    public CheckBox getTermsCheckBox() {
+        return termsCheckBox;
+    }
+
+    public void setTermsCheckBox(CheckBox termsCheckBox) {
+        this.termsCheckBox = termsCheckBox;
+    }
+
+    public TextField getUsernameTextField() {
+        return usernameTextField;
+    }
+
+    public void setUsernameTextField(TextField usernameTextField) {
+        this.usernameTextField = usernameTextField;
+    }
+
+    public TextField getPasswordTextField() {
+        return passwordTextField;
+    }
+
+    public void setPasswordTextField(TextField passwordTextField) {
+        this.passwordTextField = passwordTextField;
+    }
+
+    public Button getExitButton() {
+        return exitButton;
+    }
+
+    public void setExitButton(Button exitButton) {
+        this.exitButton = exitButton;
+    }
+
+    public Button getRegisterButton() {
+        return registerButton;
+    }
+
+    public void setRegisterButton(Button registerButton) {
+        this.registerButton = registerButton;
+    }
+    public TextField getFirstNameTextField() {
+        return firstNameTextField;
+    }
+
+    public void setFirstNameTextField(TextField firstNameTextField) {
+        this.firstNameTextField = firstNameTextField;
+    }
+
+    public TextField getLastNameTextField() {
+        return lastNameTextField;
+    }
+
+    public void setLastNameTextField(TextField lastNameTextField) {
+        this.lastNameTextField = lastNameTextField;
     }
 }
