@@ -1,11 +1,13 @@
 package com.example.perfumeshop.view;
 
-import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
 public interface ILoginView {
-    @FXML
-    TextField usernameTextField = null;
-    @FXML
-    TextField passwordTextField = null;
+    public TextField getUsernameTextField();
+
+    public void setUsernameTextField(TextField usernameTextField);
+
+    public TextField getPasswordTextField();
+
+    public void setPasswordTextField(TextField passwordTextField);
 }
