@@ -11,4 +11,19 @@ public class PersonPresenter implements IPersonPresenter {
     public List<Person> getPersons() {
         return personPersistence.findAll();
     }
+
+    @Override
+    public void addPersosn(Person person) {
+        return;
+    }
+
+    @Override
+    public boolean deletePersosn(Person person) {
+        try {
+            personPersistence.delete(person);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
 }

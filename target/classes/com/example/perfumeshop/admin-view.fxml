@@ -5,7 +5,7 @@
 
 <AnchorPane prefHeight="571.0" prefWidth="811.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.perfumeshop.view.AdminView">
     <children>
-        <Button fx:id="orderButton" layoutX="694.0" layoutY="232.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="85.0" text="Add" />
+        <Button fx:id="addButton" layoutX="694.0" layoutY="232.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="85.0" text="Add" />
         <TableView fx:id="personTableView" layoutX="149.0" layoutY="126.0" prefHeight="430.0" prefWidth="536.0">
             <columns>
                 <TableColumn fx:id="firstNameColumn" prefWidth="199.3999786376953" text="First Name" />
@@ -14,6 +14,6 @@
             </columns>
         </TableView>
         <Label layoutX="381.0" layoutY="25.0" text="Persons" />
-        <Button layoutX="694.0" layoutY="170.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="85.0" text="Delete" />
+        <Button fx:id="deleteButton" layoutX="694.0" layoutY="170.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="85.0" text="Delete" />
     </children>
 </AnchorPane>
