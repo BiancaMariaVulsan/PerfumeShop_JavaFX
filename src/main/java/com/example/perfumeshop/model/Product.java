@@ -3,75 +3,91 @@ package com.example.perfumeshop.model;
 import javafx.beans.property.*;
 
 public class Product {
-        private final IntegerProperty id = new SimpleIntegerProperty();
-        private final StringProperty name = new SimpleStringProperty();
-        private final IntegerProperty quantity = new SimpleIntegerProperty(); //availability
-        private final DoubleProperty price = new SimpleDoubleProperty();
+    private final IntegerProperty id = new SimpleIntegerProperty();
+    private final StringProperty name = new SimpleStringProperty();
+    private final StringProperty brand = new SimpleStringProperty();
+    private final BooleanProperty availability = new SimpleBooleanProperty();
+    private final DoubleProperty price = new SimpleDoubleProperty();
 
-        public Product(int id, String name, int quantity, double price) {
-            this.id.set(id);
-            this.name.set(name);
-            this.quantity.set(quantity);
-            this.price.set(price);
-        }
+    public Product(int id, String name, String brand, boolean availability, double price) {
+        this.id.set(id);
+        this.name.set(name);
+        this.brand.set(brand);
+        this.availability.set(availability);
+        this.price.set(price);
+    }
 
-        public Product(String name, int quantity, double price) {
-            this.name.set(name);
-            this.quantity.set(quantity);
-            this.price.set(price);
-        }
+    public Product(String name, String brand, boolean availability, double price) {
+        this.name.set(name);
+        this.brand.set(brand);
+        this.availability.set(availability);
+        this.price.set(price);
+    }
 
-        public Product() {}
+    public Product() {}
 
-        public int getId() {
-            return id.get();
-        }
+    public int getId() {
+        return id.get();
+    }
 
-        public IntegerProperty idProperty() {
-            return id;
-        }
+    public IntegerProperty idProperty() {
+        return id;
+    }
 
-        public void setId(int id) {
-            this.id.set(id);
-        }
+    public void setId(int id) {
+        this.id.set(id);
+    }
 
-        public String getName() {
-            return name.get();
-        }
+    public String getName() {
+        return name.get();
+    }
 
-        public StringProperty nameProperty() {
-            return name;
-        }
+    public StringProperty nameProperty() {
+        return name;
+    }
 
-        public void setName(String name) {
-            this.name.set(name);
-        }
+    public void setName(String name) {
+        this.name.set(name);
+    }
 
-        public double getPrice() {
-            return price.get();
-        }
+    public double getPrice() {
+        return price.get();
+    }
 
-        public DoubleProperty priceProperty() {
-            return price;
-        }
+    public DoubleProperty priceProperty() {
+        return price;
+    }
 
-        public void setPrice(double price) {
-            this.price.set(price);
-        }
+    public void setPrice(double price) {
+        this.price.set(price);
+    }
 
-        public int getQuantity() {
-            return quantity.get();
-        }
+    public String getBrand() {
+        return brand.get();
+    }
 
-        public IntegerProperty quantityProperty() {
-            return quantity;
-        }
+    public StringProperty brandProperty() {
+        return brand;
+    }
 
-        public void setQuantity(int quantity) {
-            this.quantity.set(quantity);
-        }
+    public void setBrand(String brand) {
+        this.brand.set(brand);
+    }
 
-        @Override
+    public boolean getAvailability() {
+        return availability.get();
+    }
+
+    public BooleanProperty availabilityProperty() {
+        return availability;
+    }
+
+    public void setAvailability(boolean availability) {
+        this.availability.set(availability);
+    }
+
+
+    @Override
         public String toString() {
             return "Product{" +
                     "id=" + id +

@@ -1,5 +1,13 @@
 package com.example.perfumeshop.view;
 
+import com.example.perfumeshop.model.Product;
+import com.example.perfumeshop.presenter.IProductPresenter;
+import com.example.perfumeshop.presenter.ProductPresenter;
+import javafx.beans.property.ReadOnlyBooleanWrapper;
+import javafx.beans.property.ReadOnlyDoubleWrapper;
+import javafx.beans.property.ReadOnlyFloatWrapper;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -42,21 +50,16 @@ public class View {
     }
 
 
-//    public static void populateTableProducts(TableView<MenuItem> productTableView, ObservableList<MenuItem> productItems, TableColumn<MenuItem, String> titleColumn,
-//                                             TableColumn<MenuItem, Number> ratingColumn, TableColumn<MenuItem, Number> caloriesColumn, TableColumn<MenuItem, Number> proteinColumn,
-//                                             TableColumn<MenuItem, Number> fatColumn, TableColumn<MenuItem, Number> sodiumColumn, TableColumn<MenuItem, Number> priceColumn, TableColumn<MenuItem, String> compositionColumn){
-//        productItems.clear();
-//        productTableView.getItems().clear();
-//        titleColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getTitle()));
-//        ratingColumn.setCellValueFactory(cellData -> new ReadOnlyFloatWrapper(cellData.getValue().getRating()));
-//        caloriesColumn.setCellValueFactory(cellData -> new ReadOnlyFloatWrapper(cellData.getValue().getCalories()));
-//        proteinColumn.setCellValueFactory(cellData -> new ReadOnlyFloatWrapper(cellData.getValue().getProtein()));
-//        fatColumn.setCellValueFactory(cellData -> new ReadOnlyFloatWrapper(cellData.getValue().getFat()));
-//        sodiumColumn.setCellValueFactory(cellData -> new ReadOnlyFloatWrapper(cellData.getValue().getSodium()));
-//        priceColumn.setCellValueFactory(cellData -> new ReadOnlyFloatWrapper(cellData.getValue().getPrice()));
-//        compositionColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getComponents()));
-//        DeliveryService deliveryService = new DeliveryService();
-//        productItems.addAll(deliveryService.getProducts());
-//        productTableView.setItems(productItems);
-//    }
+    public static void populateTableProducts(TableView<Product> productTableView, ObservableList<Product> productItems, TableColumn<Product, String> nameColumn,
+                                             TableColumn<Product ,String> brandColumn, TableColumn<Product, Boolean> availabilityColumn, TableColumn<Product, Number> priceColumn){
+        productItems.clear();
+        productTableView.getItems().clear();
+        nameColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getName()));
+        brandColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getBrand()));
+        availabilityColumn.setCellValueFactory(cellData -> new ReadOnlyBooleanWrapper(cellData.getValue().getAvailability()));
+        priceColumn.setCellValueFactory(cellData -> new ReadOnlyDoubleWrapper(cellData.getValue().getPrice()));
+        IProductPresenter productPresenter = new ProductPresenter();
+        productItems.addAll(productPresenter.getProducts());
+        productTableView.setItems(productItems);
+    }
 }

@@ -8,9 +8,9 @@
         <Button fx:id="orderButton" layoutX="694.0" layoutY="232.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="85.0" text="Add" />
         <TableView fx:id="productTableView" layoutX="149.0" layoutY="126.0" prefHeight="430.0" prefWidth="536.0">
             <columns>
-                <TableColumn fx:id="titleColumn" prefWidth="158.0" text="Name" />
-                <TableColumn fx:id="caloriesColumn" prefWidth="199.19998168945312" text="Brand" />
-                <TableColumn fx:id="proteinColumn" minWidth="9.79998779296875" prefWidth="95.39999389648438" text="Availability" />
+                <TableColumn fx:id="nameColumn" prefWidth="158.0" text="Name" />
+                <TableColumn fx:id="brandColumn" prefWidth="199.19998168945312" text="Brand" />
+                <TableColumn fx:id="availabilityColumn" minWidth="9.79998779296875" prefWidth="95.39999389648438" text="Availability" />
                 <TableColumn fx:id="priceColumn" prefWidth="83.79998779296875" text="Price" />
             </columns>
         </TableView>
