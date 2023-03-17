@@ -3,15 +3,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="571.0" prefWidth="811.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.perfumeshop.view.AdminView">
+<AnchorPane prefHeight="571.0" prefWidth="811.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.perfumeshop.view.AdminView">
     <children>
         <Button fx:id="orderButton" layoutX="694.0" layoutY="232.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="85.0" text="Add" />
-        <TableView fx:id="productTableView" layoutX="149.0" layoutY="126.0" prefHeight="430.0" prefWidth="536.0">
+        <TableView fx:id="personTableView" layoutX="149.0" layoutY="126.0" prefHeight="430.0" prefWidth="536.0">
             <columns>
-                <TableColumn fx:id="titleColumn" prefWidth="158.0" text="First Name" />
-                <TableColumn fx:id="caloriesColumn" prefWidth="199.19998168945312" text="Last Name" />
-                <TableColumn fx:id="proteinColumn" minWidth="9.79998779296875" prefWidth="95.39999389648438" text="Role" />
-                <TableColumn fx:id="priceColumn" prefWidth="83.79998779296875" text="Age" />
+                <TableColumn fx:id="firstNameColumn" prefWidth="199.3999786376953" text="First Name" />
+                <TableColumn fx:id="lastNameColumn" prefWidth="197.39999389648438" text="Last Name" />
+                <TableColumn fx:id="roleColumn" minWidth="9.79998779296875" prefWidth="137.0" text="Role" />
             </columns>
         </TableView>
         <Label layoutX="381.0" layoutY="25.0" text="Persons" />

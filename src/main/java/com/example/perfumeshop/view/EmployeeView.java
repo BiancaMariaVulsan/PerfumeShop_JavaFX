@@ -1,6 +1,7 @@
 package com.example.perfumeshop.view;
 
 import com.example.perfumeshop.model.Product;
+import com.example.perfumeshop.presenter.Presenter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -26,6 +27,6 @@ public class EmployeeView implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        View.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn);
+        Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn);
     }
 }

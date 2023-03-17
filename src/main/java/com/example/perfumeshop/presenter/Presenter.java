@@ -1,11 +1,9 @@
-package com.example.perfumeshop.view;
+package com.example.perfumeshop.presenter;
 
+import com.example.perfumeshop.model.Person;
 import com.example.perfumeshop.model.Product;
-import com.example.perfumeshop.presenter.IProductPresenter;
-import com.example.perfumeshop.presenter.ProductPresenter;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyDoubleWrapper;
-import javafx.beans.property.ReadOnlyFloatWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -17,19 +15,19 @@ import javafx.util.Callback;
 
 import java.io.IOException;
 
-public class View {
+public class Presenter {
     public static void loadFXML(String fxmlFile, Callback<Class<?>, Object> controllerFactory) {
         Stage programStage = new Stage();
         Parent programRoot;
 
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(View.class.getResource(fxmlFile));
+            FXMLLoader fxmlLoader = new FXMLLoader(Presenter.class.getResource(fxmlFile));
             fxmlLoader.setControllerFactory(controllerFactory);
-            var path = View.class.getResource(fxmlFile);
+            var path = Presenter.class.getResource(fxmlFile);
             fxmlLoader.setLocation(path);
             programRoot = fxmlLoader.load();
             Scene programScene = new Scene(programRoot);
-            String css = View.class.getResource("/com/example/perfumeshop/start.css").toExternalForm();
+            String css = Presenter.class.getResource("/com/example/perfumeshop/start.css").toExternalForm();
             programScene.getStylesheets().add(css);
             programStage.setTitle("Running Program");
             programStage.setScene(programScene);
@@ -61,5 +59,17 @@ public class View {
         IProductPresenter productPresenter = new ProductPresenter();
         productItems.addAll(productPresenter.getProducts());
         productTableView.setItems(productItems);
+    }
+
+    public static void populateTablePersons(TableView<Person> personTableView, ObservableList<Person> personItems, TableColumn<Person, String> firstNameColumn,
+                                            TableColumn<Person ,String> lastNameColumn, TableColumn<Person, String> roleColumn){
+        personItems.clear();
+        personTableView.getItems().clear();
+        firstNameColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getFirstName()));
+        lastNameColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getLastName()));
+        roleColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getRole().toString()));
+        IPersonPresenter personPresenter = new PersonPresenter();
+        personItems.addAll(personPresenter.getPersons());
+        personTableView.setItems(personItems);
     }
 }

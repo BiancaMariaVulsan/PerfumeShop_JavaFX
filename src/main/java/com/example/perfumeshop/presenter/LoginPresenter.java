@@ -32,7 +32,7 @@ public class LoginPresenter implements ILoginPresenter { ;
         boolean isManager = true;
 
         if (username.getText().isEmpty() || password.getText().isEmpty()) {
-            View.initAlarmBox("Error", "You must complete both username and password fields!", Alert.AlertType.ERROR);
+            Presenter.initAlarmBox("Error", "You must complete both username and password fields!", Alert.AlertType.ERROR);
             return;
 
         }
@@ -51,7 +51,7 @@ public class LoginPresenter implements ILoginPresenter { ;
                     isManager = false;
                 }
                 else {
-                    View.initAlarmBox("Error", "There is no user with this username and password!", Alert.AlertType.ERROR);
+                    Presenter.initAlarmBox("Error", "There is no user with this username and password!", Alert.AlertType.ERROR);
                     return;
                 }
         }
@@ -68,7 +68,7 @@ public class LoginPresenter implements ILoginPresenter { ;
                     }
                 }
             };
-            View.loadFXML("/com/example/perfumeshop/admin-view.fxml", controllerFactory);
+            Presenter.loadFXML("/com/example/perfumeshop/admin-view.fxml", controllerFactory);
         } else if (isManager) {
             Callback<Class<?>, Object> controllerFactory = type -> {
                 if (type == ManagerView.class) {
@@ -82,7 +82,7 @@ public class LoginPresenter implements ILoginPresenter { ;
                     }
                 }
             };
-            View.loadFXML("/com/example/perfumeshop/manager-view.fxml", controllerFactory);
+            Presenter.loadFXML("/com/example/perfumeshop/manager-view.fxml", controllerFactory);
         } else {
             Callback<Class<?>, Object> controllerFactory = type -> {
                 if (type == EmployeeView.class) {
@@ -96,7 +96,7 @@ public class LoginPresenter implements ILoginPresenter { ;
                     }
                 }
             };
-            View.loadFXML("/com/example/perfumeshop/employee-view.fxml", controllerFactory);
+            Presenter.loadFXML("/com/example/perfumeshop/employee-view.fxml", controllerFactory);
         }
     }
 }
