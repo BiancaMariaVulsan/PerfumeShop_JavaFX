@@ -5,7 +5,7 @@ import com.example.perfumeshop.model.persistence.EmployeePersistence;
 
 public class EmployeePresenter {
     private static final EmployeePersistence employeePersistence = new EmployeePersistence();
-    public static boolean addEmployee(Employee employee) {
+    public static boolean addPerson(Employee employee) {
         try {
             employeePersistence.insert(employee);
         } catch (Exception e) {

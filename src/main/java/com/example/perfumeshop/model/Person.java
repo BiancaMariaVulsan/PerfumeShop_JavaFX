@@ -13,15 +13,6 @@ public class Person {
     private final StringProperty password = new SimpleStringProperty();
     private Role role;
 
-    public Person(int id, String firstName, String lastName, String username, String password) {
-        this.id.set(id);
-        this.firstName.set(firstName);
-        this.lastName.set(lastName);
-        this.role = Role.EMPLOYEE;
-        this.username.set(username);
-        this.password.set(password);
-    }
-
     public Person(int id, String firstName, String lastName, Role role, String username, String password) {
         this.id.set(id);
         this.firstName.set(firstName);
@@ -31,12 +22,12 @@ public class Person {
         this.password.set(password);
     }
 
-    public Person(String firstName, String lastName, String username, String password) {
+    public Person(String firstName, String lastName, Role role, String username, String password) {
         this.firstName.set(firstName);
         this.lastName.set(lastName);
+        this.role = role;
         this.username.set(username);
         this.password.set(password);
-        this.role = Role.EMPLOYEE;
     }
 
     public Person() {}
@@ -112,10 +103,13 @@ public class Person {
 
     @Override
     public String toString() {
-        return "Client{" +
+        return "Person{" +
                 "id=" + id +
-                ", firstName='" + firstName.get() + '\'' +
-                ", lastName='" + lastName.get() + '\'' +
+                ", firstName=" + firstName +
+                ", lastName=" + lastName +
+                ", username=" + username +
+                ", password=" + password +
+                ", role=" + role +
                 '}';
     }
 }

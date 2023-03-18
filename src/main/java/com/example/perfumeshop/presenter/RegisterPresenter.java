@@ -1,6 +1,8 @@
 package com.example.perfumeshop.presenter;
 
 import com.example.perfumeshop.model.Employee;
+import com.example.perfumeshop.model.Person;
+import com.example.perfumeshop.model.Role;
 import com.example.perfumeshop.view.IRegisterView;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
@@ -36,10 +38,20 @@ public class RegisterPresenter implements IRegisterPresenter {
     }
 
     public void register() {
-        Employee employee = new Employee(registerView.getFirstNameTextField().getText(),
+        Role role = registerView.getRoleChoiceBox().getValue();
+        Person person = new Employee(registerView.getFirstNameTextField().getText(),
                 registerView.getLastNameTextField().getText(), registerView.getUsernameTextField().getText(),
                 registerView.getPasswordTextField().getText(), 1);
-        if(EmployeePresenter.addEmployee(employee)) {
+        if(role.equals(Role.MANAGER)) {
+            person = new Person(registerView.getFirstNameTextField().getText(),
+                    registerView.getLastNameTextField().getText(), Role.MANAGER, registerView.getUsernameTextField().getText(),
+                    registerView.getPasswordTextField().getText());
+        } else if(role.equals(Role.ADMIN)) {
+            person = new Person(registerView.getFirstNameTextField().getText(),
+                    registerView.getLastNameTextField().getText(), Role.ADMIN, registerView.getUsernameTextField().getText(),
+                    registerView.getPasswordTextField().getText());
+        }
+        if(PersonPresenter.addPerson(person)) {
             Presenter.initAlarmBox("Successful registration", "You are successfully registered!", Alert.AlertType.INFORMATION);
             Stage stage = (Stage) registerView.getRegisterButton().getScene().getWindow();
             stage.close();

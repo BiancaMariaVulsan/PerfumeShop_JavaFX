@@ -68,8 +68,7 @@ public class Presenter {
         firstNameColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getFirstName()));
         lastNameColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getLastName()));
         roleColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getRole().toString()));
-        IPersonPresenter personPresenter = new PersonPresenter();
-        personItems.addAll(personPresenter.getPersons());
+        personItems.addAll(PersonPresenter.getPersons());
         personTableView.setItems(personItems);
     }
 }

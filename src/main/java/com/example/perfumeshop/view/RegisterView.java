@@ -1,7 +1,12 @@
 package com.example.perfumeshop.view;
 
+import com.example.perfumeshop.model.Person;
+import com.example.perfumeshop.model.Role;
 import com.example.perfumeshop.presenter.IRegisterPresenter;
+import com.example.perfumeshop.presenter.Presenter;
 import com.example.perfumeshop.presenter.RegisterPresenter;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -29,17 +34,54 @@ public class RegisterView implements Initializable, IRegisterView
     private Button exitButton;
     @FXML
     private Button registerButton;
+    @FXML
+    private ChoiceBox<Role> roleChoiceBox;
     
     private final IRegisterPresenter registerPresenter;
+    private Person personToUpdate;
+
+    @FXML
+    private TableView<Person> personTableView;
+    private ObservableList<Person> personItems = FXCollections.observableArrayList();
+    @FXML
+    private TableColumn<Person, String> firstNameColumn;
+    @FXML
+    private TableColumn<Person, String> lastNameColumn;
+    @FXML
+    private TableColumn<Person, String> roleColumn;
 
     public RegisterView() {
         this.registerPresenter = new RegisterPresenter(this);
+    }
+
+    public RegisterView(Person item, TableView<Person> personTableView, ObservableList<Person> personItems,
+                        TableColumn<Person, String> firstNameColumn, TableColumn<Person, String> lastNameColumn,
+                        TableColumn<Person, String> roleColumn) {
+        this.registerPresenter = new RegisterPresenter(this);
+        this.personToUpdate = item;
+        this.personTableView = personTableView;
+        this.personItems = personItems;
+        this.firstNameColumn = firstNameColumn;
+        this.lastNameColumn = lastNameColumn;
+        this.roleColumn = roleColumn;
+    }
+
+    public RegisterView(TableView<Person> personTableView, ObservableList<Person> personItems,
+                        TableColumn<Person, String> firstNameColumn, TableColumn<Person, String> lastNameColumn,
+                        TableColumn<Person, String> roleColumn) {
+        this.registerPresenter = new RegisterPresenter(this);
+        this.personTableView = personTableView;
+        this.personItems = personItems;
+        this.firstNameColumn = firstNameColumn;
+        this.lastNameColumn = lastNameColumn;
+        this.roleColumn = roleColumn;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         registerButton.setDisable(true);
         registerPresenter.setProgressIndicator();
+        initCheckBox();
 
         exitButton.setOnAction(actionEvent -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -65,7 +107,14 @@ public class RegisterView implements Initializable, IRegisterView
         });
         registerButton.setOnAction(actionEvent -> {
             registerPresenter.register();
+            Presenter.populateTablePersons(personTableView, personItems, firstNameColumn, lastNameColumn, roleColumn);
         });
+    }
+    private void initCheckBox() {
+        roleChoiceBox.getItems().add(Role.EMPLOYEE);
+        roleChoiceBox.getItems().add(Role.MANAGER);
+        roleChoiceBox.getItems().add(Role.ADMIN);
+        roleChoiceBox.setValue(Role.EMPLOYEE);
     }
     public ProgressIndicator getProgressIndicator() {
         return progressIndicator;
@@ -128,5 +177,13 @@ public class RegisterView implements Initializable, IRegisterView
 
     public void setLastNameTextField(TextField lastNameTextField) {
         this.lastNameTextField = lastNameTextField;
+    }
+
+    public ChoiceBox<Role> getRoleChoiceBox() {
+        return roleChoiceBox;
+    }
+
+    public void setRoleChoiceBox(ChoiceBox<Role> roleChoiceBox) {
+        this.roleChoiceBox = roleChoiceBox;
     }
 }

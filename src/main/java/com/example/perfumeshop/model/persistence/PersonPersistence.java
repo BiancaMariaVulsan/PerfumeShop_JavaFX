@@ -3,20 +3,25 @@ package com.example.perfumeshop.model.persistence;
 import com.example.perfumeshop.model.Person;
 import com.example.perfumeshop.model.Role;
 
-import java.beans.IntrospectionException;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PersonPersistence extends DatabaseObj<Person> {
 
+    protected String createInsertQuery(Person employee) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("INSERT INTO person (firstname,lastname,role,username,password) VALUES (");
+        sb.append("'");
+        sb.append(employee.getFirstName());sb.append("','");
+        sb.append(employee.getLastName());sb.append("',");
+        sb.append(employee.getRole().ordinal());sb.append(",'");
+        sb.append(employee.getUsername());sb.append("','");
+        sb.append(employee.getPassword());sb.append("'");
+        sb.append(")");
+
+        return sb.toString();
+    }
     protected String createUpdateQuery(Person person) {
         StringBuilder sb = new StringBuilder();
         sb.append("UPDATE person SET firstname='");

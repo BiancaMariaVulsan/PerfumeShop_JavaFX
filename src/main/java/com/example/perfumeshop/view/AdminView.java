@@ -1,7 +1,6 @@
 package com.example.perfumeshop.view;
 
 import com.example.perfumeshop.model.Person;
-import com.example.perfumeshop.presenter.IPersonPresenter;
 import com.example.perfumeshop.presenter.PersonPresenter;
 import com.example.perfumeshop.presenter.Presenter;
 import javafx.collections.FXCollections;
@@ -31,15 +30,16 @@ public class AdminView implements Initializable {
     private Button addButton;
     @FXML
     private Button deleteButton;
+    @FXML
+    private Button editButton;
 
-    IPersonPresenter personPresenter = new PersonPresenter();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Presenter.populateTablePersons(personTableView, personItems, firstNameColumn, lastNameColumn, roleColumn);
         addButton.setOnAction(e -> {
             Callback<Class<?>, Object> controllerFactory = type -> {
-                if (type == AddProductView.class) {
-                    return new AddProductView();
+                if (type == RegisterView.class) {
+                    return new RegisterView(personTableView, personItems, firstNameColumn, lastNameColumn, roleColumn);
                 } else {
                     try {
                         return type.newInstance();
@@ -57,11 +57,31 @@ public class AdminView implements Initializable {
                 Presenter.initAlarmBox("Warning", "Please select the product to be deleted!", Alert.AlertType.WARNING);
                 return;
             }
-            if(personPresenter.deletePersosn(person)) {
+            if(PersonPresenter.deletePersons(person)) {
                 Presenter.populateTablePersons(personTableView, personItems, firstNameColumn, lastNameColumn, roleColumn);
             } else {
                 Presenter.initAlarmBox("Warning", "Delete operation failed, please try again!", Alert.AlertType.WARNING);
             }
+        });
+        editButton.setOnAction(e -> {
+            Person item = personTableView.getSelectionModel().getSelectedItem();
+            if(item == null) {
+                Presenter.initAlarmBox("Warning", "Please select the product to be edited!", Alert.AlertType.WARNING);
+                return;
+            }
+            Callback<Class<?>, Object> controllerFactory = type -> {
+                if (type == RegisterView.class) {
+                    return new RegisterView(item, personTableView, personItems, firstNameColumn, lastNameColumn, roleColumn);
+                } else {
+                    try {
+                        return type.newInstance();
+                    } catch (Exception exc) {
+                        System.err.println("Could not load register controller " + type.getName());
+                        throw new RuntimeException(exc);
+                    }
+                }
+            };
+            Presenter.loadFXML("/com/example/perfumeshop/register-view.fxml", controllerFactory);
         });
     }
 }

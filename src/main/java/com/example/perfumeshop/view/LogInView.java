@@ -14,8 +14,6 @@ public class LogInView implements ILoginView {
     private TextField passwordTextField;
     @FXML
     private Button signInButton;
-    @FXML
-    private Button registerButton;
 
     private final LoginPresenter loginPresenter;
 
@@ -25,10 +23,6 @@ public class LogInView implements ILoginView {
 
     @FXML
     public void initialize() {
-        registerButton.setOnAction(e -> {
-            Callback<Class<?>, Object> controllerFactory = loginPresenter::register;
-            Presenter.loadFXML("/com/example/perfumeshop/register-view.fxml", controllerFactory);
-        });
         signInButton.setOnAction(actionEvent -> {
             loginPresenter.signIn();
         });

@@ -11,7 +11,7 @@ public class Employee extends Person {
     private final IntegerProperty shopId = new SimpleIntegerProperty();;
 
     public Employee(String firstName, String lastName, String username, String password, int shopId) {
-        super(firstName, lastName, username, password);
+        super(firstName, lastName, Role.EMPLOYEE, username, password);
         this.shopId.set(shopId);
     }
     public int getShopId() {

@@ -1,9 +1,7 @@
 package com.example.perfumeshop.view;
 
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.TextField;
+import com.example.perfumeshop.model.Role;
+import javafx.scene.control.*;
 
 public interface IRegisterView {
 
@@ -36,4 +34,8 @@ public interface IRegisterView {
     public TextField getLastNameTextField();
 
     public void setLastNameTextField(TextField lastNameTextField);
+
+    public ChoiceBox<Role> getRoleChoiceBox();
+
+    public void setRoleChoiceBox(ChoiceBox<Role> roleChoiceBox);
 }

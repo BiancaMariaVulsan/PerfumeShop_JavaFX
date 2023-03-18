@@ -36,7 +36,6 @@
         <ButtonBar prefHeight="40.0" prefWidth="183.0">
             <buttons>
                 <Button fx:id="signInButton" mnemonicParsing="false" text="Sign in" />
-                <Button fx:id="registerButton" mnemonicParsing="false" text="Register" />
             </buttons>
         </ButtonBar>
     </children>
