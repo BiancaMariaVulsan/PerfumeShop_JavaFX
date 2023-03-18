@@ -39,7 +39,7 @@ public class RegisterView implements Initializable, IRegisterView
     
     private final IRegisterPresenter registerPresenter;
     private Person personToUpdate;
-
+    private boolean isEditing = false;
     @FXML
     private TableView<Person> personTableView;
     private ObservableList<Person> personItems = FXCollections.observableArrayList();
@@ -51,12 +51,14 @@ public class RegisterView implements Initializable, IRegisterView
     private TableColumn<Person, String> roleColumn;
 
     public RegisterView() {
+        this.isEditing = false;
         this.registerPresenter = new RegisterPresenter(this);
     }
 
     public RegisterView(Person item, TableView<Person> personTableView, ObservableList<Person> personItems,
                         TableColumn<Person, String> firstNameColumn, TableColumn<Person, String> lastNameColumn,
                         TableColumn<Person, String> roleColumn) {
+        this.isEditing = true;
         this.registerPresenter = new RegisterPresenter(this);
         this.personToUpdate = item;
         this.personTableView = personTableView;
@@ -69,6 +71,7 @@ public class RegisterView implements Initializable, IRegisterView
     public RegisterView(TableView<Person> personTableView, ObservableList<Person> personItems,
                         TableColumn<Person, String> firstNameColumn, TableColumn<Person, String> lastNameColumn,
                         TableColumn<Person, String> roleColumn) {
+        this.isEditing = false;
         this.registerPresenter = new RegisterPresenter(this);
         this.personTableView = personTableView;
         this.personItems = personItems;
@@ -82,6 +85,15 @@ public class RegisterView implements Initializable, IRegisterView
         registerButton.setDisable(true);
         registerPresenter.setProgressIndicator();
         initCheckBox();
+
+        if(this.isEditing)
+        {
+            firstNameTextField.setText(personToUpdate.getFirstName());
+            lastNameTextField.setText(personToUpdate.getLastName());
+            usernameTextField.setText(personToUpdate.getUsername());
+            passwordTextField.setText(personToUpdate.getPassword());
+            roleChoiceBox.setValue(personToUpdate.getRole());
+        }
 
         exitButton.setOnAction(actionEvent -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -106,8 +118,13 @@ public class RegisterView implements Initializable, IRegisterView
             }
         });
         registerButton.setOnAction(actionEvent -> {
-            registerPresenter.register();
-            Presenter.populateTablePersons(personTableView, personItems, firstNameColumn, lastNameColumn, roleColumn);
+            if(!isEditing) {
+                registerPresenter.register();
+                Presenter.populateTablePersons(personTableView, personItems, firstNameColumn, lastNameColumn, roleColumn);
+            } else {
+                registerPresenter.updatePerson(personToUpdate);
+                Presenter.populateTablePersons(personTableView, personItems, firstNameColumn, lastNameColumn, roleColumn);
+            }
         });
     }
     private void initCheckBox() {

@@ -106,7 +106,7 @@ public class DatabaseObj<T> {
         }
     }
 
-    public void update(T t) {
+    public boolean update(T t) {
         Connection connection = null;
         PreparedStatement statement = null;
         String query = createUpdateQuery(t);
@@ -116,10 +116,12 @@ public class DatabaseObj<T> {
             statement.executeUpdate();
         }catch(SQLException e){
             LOGGER.log(Level.WARNING, e.getMessage());
+            return false;
         }finally{
             ConnectionFactory.close(statement);
             ConnectionFactory.close(connection);
         }
+        return true;
     }
 
     public void delete(T t) {

@@ -3,6 +3,7 @@ package com.example.perfumeshop.presenter;
 import com.example.perfumeshop.model.Employee;
 import com.example.perfumeshop.model.Person;
 import com.example.perfumeshop.model.Role;
+import com.example.perfumeshop.model.persistence.PersonPersistence;
 import com.example.perfumeshop.view.IRegisterView;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
@@ -53,6 +54,21 @@ public class RegisterPresenter implements IRegisterPresenter {
         }
         if(PersonPresenter.addPerson(person)) {
             Presenter.initAlarmBox("Successful registration", "You are successfully registered!", Alert.AlertType.INFORMATION);
+            Stage stage = (Stage) registerView.getRegisterButton().getScene().getWindow();
+            stage.close();
+        } else {
+            Presenter.initAlarmBox("Error", "An error occurred during the registration, please try again!", Alert.AlertType.ERROR);
+        }
+    }
+
+    @Override
+    public void updatePerson(Person personToUpdate) {
+        personToUpdate = new Person(personToUpdate.getId(), registerView.getFirstNameTextField().getText(),
+                registerView.getLastNameTextField().getText(), registerView.getRoleChoiceBox().getValue(),
+                registerView.getUsernameTextField().getText(), registerView.getPasswordTextField().getText());
+        PersonPersistence personPresenter = new PersonPersistence();
+        if(personPresenter.update(personToUpdate)) {
+            Presenter.initAlarmBox("Successful registration", "Person successfully updated!", Alert.AlertType.INFORMATION);
             Stage stage = (Stage) registerView.getRegisterButton().getScene().getWindow();
             stage.close();
         } else {
