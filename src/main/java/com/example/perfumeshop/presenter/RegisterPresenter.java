@@ -4,6 +4,7 @@ import com.example.perfumeshop.model.Employee;
 import com.example.perfumeshop.model.Person;
 import com.example.perfumeshop.model.Role;
 import com.example.perfumeshop.model.Shop;
+import com.example.perfumeshop.model.persistence.EmployeePersistence;
 import com.example.perfumeshop.model.persistence.PersonPersistence;
 import com.example.perfumeshop.view.IRegisterView;
 import javafx.scene.control.Alert;
@@ -64,17 +65,21 @@ public class RegisterPresenter implements IRegisterPresenter {
     @Override
     public void updatePerson(Person personToUpdate) {
         Role role = registerView.getRoleChoiceBox().getValue();
+        PersonPersistence personPersistence = new PersonPersistence();
+        EmployeePersistence employeePersistence = new EmployeePersistence();
+        boolean successUpdate = false;
         if(role.equals(Role.EMPLOYEE)) {
-            personToUpdate = new Employee(registerView.getFirstNameTextField().getText(),
+            personToUpdate = new Employee(personToUpdate.getId(), registerView.getFirstNameTextField().getText(),
                     registerView.getLastNameTextField().getText(), registerView.getUsernameTextField().getText(),
                     registerView.getPasswordTextField().getText(), registerView.getShopChoiceBox().getValue().getId());
+            successUpdate = employeePersistence.update((Employee) personToUpdate);
         } else {
             personToUpdate = new Person(personToUpdate.getId(), registerView.getFirstNameTextField().getText(),
                     registerView.getLastNameTextField().getText(), registerView.getRoleChoiceBox().getValue(),
                     registerView.getUsernameTextField().getText(), registerView.getPasswordTextField().getText());
+            successUpdate = personPersistence.update(personToUpdate);
         }
-        PersonPersistence personPresenter = new PersonPersistence();
-        if(personPresenter.update(personToUpdate)) {
+        if(successUpdate) {
             Presenter.initAlarmBox("Successful registration", "Person successfully updated!", Alert.AlertType.INFORMATION);
             Stage stage = (Stage) registerView.getRegisterButton().getScene().getWindow();
             stage.close();

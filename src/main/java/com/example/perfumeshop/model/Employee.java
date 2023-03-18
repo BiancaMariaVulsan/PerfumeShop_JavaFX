@@ -14,6 +14,12 @@ public class Employee extends Person {
         super(firstName, lastName, Role.EMPLOYEE, username, password);
         this.shopId.set(shopId);
     }
+
+    public Employee(int id, String firstName, String lastName, String username, String password, int shopId) {
+        super(id, firstName, lastName, Role.EMPLOYEE, username, password);
+        this.shopId.set(shopId);
+    }
+
     public int getShopId() {
         return shopId.get();
     }

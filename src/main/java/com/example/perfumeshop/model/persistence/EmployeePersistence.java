@@ -1,7 +1,6 @@
 package com.example.perfumeshop.model.persistence;
 
 import com.example.perfumeshop.model.Employee;
-import com.example.perfumeshop.model.Person;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -53,5 +52,24 @@ public class EmployeePersistence extends DatabaseObj<Employee> {
             ConnectionFactory.close(connection);
         }
         return count == 0;
+    }
+
+    protected String createUpdateQuery(Employee person) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("UPDATE person SET firstname='");
+        sb.append(person.getFirstName());
+        sb.append("',lastname='");
+        sb.append(person.getLastName());
+        sb.append("',username='");
+        sb.append(person.getUsername());
+        sb.append("',password='");
+        sb.append(person.getPassword());
+        sb.append("',role=");
+        sb.append(person.getRole().ordinal());
+        sb.append(",id_shop=");
+        sb.append(person.getShopId());
+        sb.append(" WHERE id=");
+        sb.append(person.getId());
+        return sb.toString();
     }
 }
