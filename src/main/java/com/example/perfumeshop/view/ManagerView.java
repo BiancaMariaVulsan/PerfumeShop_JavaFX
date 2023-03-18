@@ -67,6 +67,5 @@ public class ManagerView implements Initializable {
             List<Product> filteredItems = productPresenter.filterProducts(name, brand, availability, price);
             Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, filteredItems);
         });
-        availabilityFilter.selectedProperty().addListener((observable, oldValue, newValue) -> availabilityFilter.setSelected(!newValue));
     }
 }

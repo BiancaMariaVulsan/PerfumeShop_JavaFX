@@ -18,7 +18,7 @@ public class ProductPresenter implements IProductPresenter {
         return products.stream()
                 .filter(it -> name.equals("") || it.getName().contains(name))
                 .filter(it -> brand.equals("") || it.getBrand().contains(brand))
-//                .filter(it -> it.getAvailability()==availability)
+                .filter(it -> !availability || it.getAvailability())
                 .filter(it -> price == -1 || it.getPrice() <= price)
                 .collect(Collectors.toList());
     }
