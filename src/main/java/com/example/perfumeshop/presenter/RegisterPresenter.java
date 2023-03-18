@@ -3,6 +3,7 @@ package com.example.perfumeshop.presenter;
 import com.example.perfumeshop.model.Employee;
 import com.example.perfumeshop.model.Person;
 import com.example.perfumeshop.model.Role;
+import com.example.perfumeshop.model.Shop;
 import com.example.perfumeshop.model.persistence.PersonPersistence;
 import com.example.perfumeshop.view.IRegisterView;
 import javafx.scene.control.Alert;
@@ -10,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RegisterPresenter implements IRegisterPresenter {
     private final IRegisterView registerView;
@@ -40,16 +42,14 @@ public class RegisterPresenter implements IRegisterPresenter {
 
     public void register() {
         Role role = registerView.getRoleChoiceBox().getValue();
-        Person person = new Employee(registerView.getFirstNameTextField().getText(),
-                registerView.getLastNameTextField().getText(), registerView.getUsernameTextField().getText(),
-                registerView.getPasswordTextField().getText(), 1);
-        if(role.equals(Role.MANAGER)) {
+        Person person;
+        if(role.equals(Role.EMPLOYEE)) {
+            person = new Employee(registerView.getFirstNameTextField().getText(),
+                    registerView.getLastNameTextField().getText(), registerView.getUsernameTextField().getText(),
+                    registerView.getPasswordTextField().getText(), registerView.getShopChoiceBox().getValue().getId());
+        } else {
             person = new Person(registerView.getFirstNameTextField().getText(),
-                    registerView.getLastNameTextField().getText(), Role.MANAGER, registerView.getUsernameTextField().getText(),
-                    registerView.getPasswordTextField().getText());
-        } else if(role.equals(Role.ADMIN)) {
-            person = new Person(registerView.getFirstNameTextField().getText(),
-                    registerView.getLastNameTextField().getText(), Role.ADMIN, registerView.getUsernameTextField().getText(),
+                    registerView.getLastNameTextField().getText(), role, registerView.getUsernameTextField().getText(),
                     registerView.getPasswordTextField().getText());
         }
         if(PersonPresenter.addPerson(person)) {
@@ -63,9 +63,16 @@ public class RegisterPresenter implements IRegisterPresenter {
 
     @Override
     public void updatePerson(Person personToUpdate) {
-        personToUpdate = new Person(personToUpdate.getId(), registerView.getFirstNameTextField().getText(),
-                registerView.getLastNameTextField().getText(), registerView.getRoleChoiceBox().getValue(),
-                registerView.getUsernameTextField().getText(), registerView.getPasswordTextField().getText());
+        Role role = registerView.getRoleChoiceBox().getValue();
+        if(role.equals(Role.EMPLOYEE)) {
+            personToUpdate = new Employee(registerView.getFirstNameTextField().getText(),
+                    registerView.getLastNameTextField().getText(), registerView.getUsernameTextField().getText(),
+                    registerView.getPasswordTextField().getText(), registerView.getShopChoiceBox().getValue().getId());
+        } else {
+            personToUpdate = new Person(personToUpdate.getId(), registerView.getFirstNameTextField().getText(),
+                    registerView.getLastNameTextField().getText(), registerView.getRoleChoiceBox().getValue(),
+                    registerView.getUsernameTextField().getText(), registerView.getPasswordTextField().getText());
+        }
         PersonPersistence personPresenter = new PersonPersistence();
         if(personPresenter.update(personToUpdate)) {
             Presenter.initAlarmBox("Successful registration", "Person successfully updated!", Alert.AlertType.INFORMATION);
@@ -73,6 +80,21 @@ public class RegisterPresenter implements IRegisterPresenter {
             stage.close();
         } else {
             Presenter.initAlarmBox("Error", "An error occurred during the registration, please try again!", Alert.AlertType.ERROR);
+        }
+    }
+    public void initShopCheckBox() {
+        List<Shop> shops = ShopPresenter.getShops();
+        for(Shop shop: shops) {
+            registerView.getShopChoiceBox().getItems().add(shop);
+        }
+        registerView.getShopChoiceBox().setValue(shops.get(0)); // suppose there is at least one shop
+    }
+
+    public void enableShopChoiceBox(Role role) {
+        if(role.equals(Role.EMPLOYEE)) {
+            registerView.getShopChoiceBox().setDisable(false);
+        } else {
+            registerView.getShopChoiceBox().setDisable(true);
         }
     }
 }

@@ -2,6 +2,7 @@ package com.example.perfumeshop.view;
 
 import com.example.perfumeshop.model.Person;
 import com.example.perfumeshop.model.Role;
+import com.example.perfumeshop.model.Shop;
 import com.example.perfumeshop.presenter.IRegisterPresenter;
 import com.example.perfumeshop.presenter.Presenter;
 import com.example.perfumeshop.presenter.RegisterPresenter;
@@ -36,6 +37,8 @@ public class RegisterView implements Initializable, IRegisterView
     private Button registerButton;
     @FXML
     private ChoiceBox<Role> roleChoiceBox;
+    @FXML
+    private ChoiceBox<Shop> shopChoiceBox;
     
     private final IRegisterPresenter registerPresenter;
     private Person personToUpdate;
@@ -84,7 +87,8 @@ public class RegisterView implements Initializable, IRegisterView
     public void initialize(URL url, ResourceBundle resourceBundle) {
         registerButton.setDisable(true);
         registerPresenter.setProgressIndicator();
-        initCheckBox();
+        initRoleCheckBox();
+        registerPresenter.initShopCheckBox();
 
         if(this.isEditing)
         {
@@ -93,6 +97,7 @@ public class RegisterView implements Initializable, IRegisterView
             usernameTextField.setText(personToUpdate.getUsername());
             passwordTextField.setText(personToUpdate.getPassword());
             roleChoiceBox.setValue(personToUpdate.getRole());
+            registerPresenter.enableShopChoiceBox(personToUpdate.getRole());
         }
 
         exitButton.setOnAction(actionEvent -> {
@@ -126,13 +131,17 @@ public class RegisterView implements Initializable, IRegisterView
                 Presenter.populateTablePersons(personTableView, personItems, firstNameColumn, lastNameColumn, roleColumn);
             }
         });
+        roleChoiceBox.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+            registerPresenter.enableShopChoiceBox(newValue);
+        });
     }
-    private void initCheckBox() {
+    private void initRoleCheckBox() {
         roleChoiceBox.getItems().add(Role.EMPLOYEE);
         roleChoiceBox.getItems().add(Role.MANAGER);
         roleChoiceBox.getItems().add(Role.ADMIN);
         roleChoiceBox.setValue(Role.EMPLOYEE);
     }
+
     public ProgressIndicator getProgressIndicator() {
         return progressIndicator;
     }
@@ -199,8 +208,10 @@ public class RegisterView implements Initializable, IRegisterView
     public ChoiceBox<Role> getRoleChoiceBox() {
         return roleChoiceBox;
     }
-
-    public void setRoleChoiceBox(ChoiceBox<Role> roleChoiceBox) {
-        this.roleChoiceBox = roleChoiceBox;
+    public TableColumn<Person, String> getRoleColumn() {
+        return roleColumn;
+    }
+    public ChoiceBox<Shop> getShopChoiceBox() {
+        return shopChoiceBox;
     }
 }

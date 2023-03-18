@@ -1,6 +1,8 @@
 package com.example.perfumeshop.view;
 
+import com.example.perfumeshop.model.Person;
 import com.example.perfumeshop.model.Role;
+import com.example.perfumeshop.model.Shop;
 import javafx.scene.control.*;
 
 public interface IRegisterView {
@@ -37,5 +39,6 @@ public interface IRegisterView {
 
     public ChoiceBox<Role> getRoleChoiceBox();
 
-    public void setRoleChoiceBox(ChoiceBox<Role> roleChoiceBox);
+    public TableColumn<Person, String> getRoleColumn();
+    public ChoiceBox<Shop> getShopChoiceBox();
 }
