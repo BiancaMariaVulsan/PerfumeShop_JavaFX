@@ -25,8 +25,10 @@ public class EmployeeView implements Initializable {
     @FXML
     private TableColumn<Product, Number> priceColumn;
 
+    private int isShop = 1; //todo: pass it through constructor from login
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn);
+        Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, isShop);
     }
 }

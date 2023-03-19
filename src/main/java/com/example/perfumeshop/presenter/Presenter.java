@@ -75,6 +75,20 @@ public class Presenter {
         productTableView.setItems(productItems);
     }
 
+    public static void populateTableProducts(TableView<Product> productTableView, ObservableList<Product> productItems, TableColumn<Product, String> nameColumn,
+                                             TableColumn<Product ,String> brandColumn, TableColumn<Product, Boolean> availabilityColumn, TableColumn<Product, Number> priceColumn,
+                                             int idShop){
+        productItems.clear();
+        productTableView.getItems().clear();
+        nameColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getName()));
+        brandColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getBrand()));
+        availabilityColumn.setCellValueFactory(cellData -> new ReadOnlyBooleanWrapper(cellData.getValue().getAvailability()));
+        priceColumn.setCellValueFactory(cellData -> new ReadOnlyDoubleWrapper(cellData.getValue().getPrice()));
+        IProductPresenter productPresenter = new ProductPresenter();
+        productItems.addAll(productPresenter.getProducts(idShop));
+        productTableView.setItems(productItems);
+    }
+
     public static void populateTablePersons(TableView<Person> personTableView, ObservableList<Person> personItems, TableColumn<Person, String> firstNameColumn,
                                             TableColumn<Person ,String> lastNameColumn, TableColumn<Person, String> roleColumn){
         personItems.clear();

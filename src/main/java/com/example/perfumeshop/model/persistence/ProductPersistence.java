@@ -6,6 +6,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
 
 public class ProductPersistence extends DatabaseObj<Product> {
     public boolean checkIfObjectAlreadyExists(Product product) {
@@ -36,5 +41,50 @@ public class ProductPersistence extends DatabaseObj<Product> {
             ConnectionFactory.close(connection);
         }
         return count == 0;
+    }
+
+    private Map<Integer, List<Product>> createMap(ResultSet resultSet) {
+        try{
+            Map<Integer, List<Product>> map = new HashMap<>();
+            while (resultSet.next())
+            {
+                int idProduct = resultSet.getInt("id_product");
+                int idShop = resultSet.getInt("id_shop");
+                Product product = findById(idProduct);
+                if(map.get(idShop) == null) {
+                    List<Product> products = new ArrayList<>();
+                    products.add(product);
+                    map.put(idShop, products);
+                } else {
+                    map.get(idShop).add(product);
+                }
+            }
+            return map;
+        } catch (java.sql.SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public Map<Integer, List<Product>> getShopProducts() {
+        String query = "SELECT * FROM shop_product";
+
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = ConnectionFactory.getConnection();
+            statement = connection.prepareStatement(query);
+            resultSet = statement.executeQuery();
+            return createMap(resultSet);
+        } catch (SQLException e) {
+            LOGGER.log(Level.WARNING, e.getMessage());
+            return null;
+        } finally{
+            ConnectionFactory.close(resultSet);
+            ConnectionFactory.close(statement);
+            ConnectionFactory.close(connection);
+        }
     }
 }
