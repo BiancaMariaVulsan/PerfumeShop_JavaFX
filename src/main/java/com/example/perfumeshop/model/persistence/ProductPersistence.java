@@ -103,4 +103,20 @@ public class ProductPersistence extends DatabaseObj<Product> {
             ConnectionFactory.close(connection);
         }
     }
+
+    public void deleteProductFromShop(int shopId, int productId) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        String query = "DELETE FROM shop_product WHERE id_product=" + productId + " AND id_shop=" + shopId;
+        try {
+            connection = ConnectionFactory.getConnection();
+            statement = connection.prepareStatement(query);
+            statement.executeUpdate();
+        }catch(SQLException e){
+            LOGGER.log(Level.WARNING, e.getMessage());
+        }finally{
+            ConnectionFactory.close(statement);
+            ConnectionFactory.close(connection);
+        }
+    }
 }

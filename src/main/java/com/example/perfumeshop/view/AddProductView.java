@@ -39,7 +39,8 @@ public class AddProductView implements Initializable {
     private TableColumn<Product, Boolean> availabilityColumn;
     @FXML
     private TableColumn<Product, Number> priceColumn;
-    private int idShop;
+    private final int idShop;
+    private boolean isEditing = false;
 
     IProductPresenter productPresenter = new ProductPresenter(); //todo: change similar to register if needed
 

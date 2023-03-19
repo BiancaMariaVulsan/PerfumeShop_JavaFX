@@ -49,6 +49,22 @@ public class ProductPresenter implements IProductPresenter {
         }
     }
 
+    @Override
+    public boolean deleteProduct(Product product, int shopId) {
+        try {
+            productPersistence.delete(product);
+            productPersistence.deleteProductFromShop(shopId, product.getId());
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean updateProduct(Product product, int shopId) {
+        return false;
+    }
+
     private Map<Integer, List<Product>> getProductsMap() {
         return productPersistence.getShopProducts();
     }
