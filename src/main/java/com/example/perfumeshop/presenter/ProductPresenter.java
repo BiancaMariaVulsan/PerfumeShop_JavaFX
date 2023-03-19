@@ -62,7 +62,12 @@ public class ProductPresenter implements IProductPresenter {
 
     @Override
     public boolean updateProduct(Product product, int shopId) {
-        return false;
+        try {
+            productPersistence.update(product);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     private Map<Integer, List<Product>> getProductsMap() {

@@ -42,7 +42,7 @@ public class RegisterView implements Initializable, IRegisterView
     
     private final IRegisterPresenter registerPresenter;
     private Person personToUpdate;
-    private boolean isEditing = false;
+    private boolean isEditing;
     @FXML
     private TableView<Person> personTableView;
     private ObservableList<Person> personItems = FXCollections.observableArrayList();

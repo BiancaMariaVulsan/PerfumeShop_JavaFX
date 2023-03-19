@@ -81,7 +81,24 @@ public class EmployeeView implements Initializable {
 
         });
         editButton.setOnAction(e -> {
-
+            Product product = productTableView.getSelectionModel().getSelectedItem();
+            if(product == null) {
+                Presenter.initAlarmBox("Warning", "Please select the product to be updated!", Alert.AlertType.WARNING);
+                return;
+            }
+            Callback<Class<?>, Object> controllerFactory = type -> {
+                if (type == AddProductView.class) {
+                    return new AddProductView(product, productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, idShop);
+                } else {
+                    try {
+                        return type.newInstance();
+                    } catch (Exception exc) {
+                        System.err.println("Could not load register controller " + type.getName());
+                        throw new RuntimeException(exc);
+                    }
+                }
+            };
+            Presenter.loadFXML("/com/example/perfumeshop/add-product-view.fxml", controllerFactory);
         });
     }
 }
