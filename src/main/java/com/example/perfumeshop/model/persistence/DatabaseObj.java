@@ -1,5 +1,6 @@
 package com.example.perfumeshop.model.persistence;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
@@ -171,6 +172,10 @@ public class DatabaseObj<T> {
             else if(field.getType().isAssignableFrom(IntegerProperty.class)){
                 IntegerProperty integerProperty = (IntegerProperty)privateField.get(t);
                 strVal = strVal + integerProperty.getValue();
+
+            } else if(field.getType().isAssignableFrom(BooleanProperty.class)){
+                BooleanProperty booleanProperty = (BooleanProperty)privateField.get(t);
+                strVal = strVal + booleanProperty.getValue();
             }
         } catch (IllegalArgumentException |  IllegalAccessException | SecurityException | NoSuchFieldException e) {
             e.printStackTrace();
@@ -179,7 +184,7 @@ public class DatabaseObj<T> {
     }
 
     protected void appendField(T t, Field field, StringBuilder sb){
-        if(field.getType().isAssignableFrom(StringProperty.class)){
+        if(field.getType().isAssignableFrom(StringProperty.class) || field.getType().isAssignableFrom(BooleanProperty.class)){
             sb.append("\'");
             sb.append(propertyToString(t, field));
             sb.append("\'");

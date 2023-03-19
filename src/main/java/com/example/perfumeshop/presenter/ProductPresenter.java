@@ -1,7 +1,6 @@
 package com.example.perfumeshop.presenter;
 
 import com.example.perfumeshop.model.Product;
-import com.example.perfumeshop.model.Shop;
 import com.example.perfumeshop.model.persistence.ProductPersistence;
 
 import java.util.HashMap;
@@ -32,6 +31,16 @@ public class ProductPresenter implements IProductPresenter {
                 .filter(it -> !availability || it.getAvailability())
                 .filter(it -> price == -1 || it.getPrice() <= price)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean addProduct(Product product) {
+        try {
+            productPersistence.insert(product);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     private Map<Integer, List<Product>> getProductsMap() {
