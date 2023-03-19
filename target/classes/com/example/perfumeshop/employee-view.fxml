@@ -18,9 +18,9 @@
         <Label layoutX="381.0" layoutY="25.0" text="Products" />
         <Label layoutX="187.0" layoutY="91.0" text="Filtering Criteria" />
         <TextField fx:id="brandFilter" layoutX="312.0" layoutY="86.0" prefHeight="26.0" prefWidth="186.0" />
-        <TextField fx:id="availabilityFilter" layoutX="511.0" layoutY="87.0" prefHeight="26.0" prefWidth="85.0" />
         <TextField fx:id="priceFilter" layoutX="606.0" layoutY="87.0" prefHeight="26.0" prefWidth="78.0" />
       <Button fx:id="deleteButton" layoutX="694.0" layoutY="170.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="85.0" text="Delete" />
       <Button fx:id="editButton" layoutX="694.0" layoutY="292.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="85.0" text="Edit" />
+      <CheckBox fx:id="availabilityFilter" layoutX="542.0" layoutY="91.0" mnemonicParsing="false" prefWidth="24.0" />
     </children>
 </AnchorPane>

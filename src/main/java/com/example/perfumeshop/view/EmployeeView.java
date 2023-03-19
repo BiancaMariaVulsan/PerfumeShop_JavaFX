@@ -9,13 +9,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.util.Callback;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class EmployeeView implements Initializable {
@@ -39,6 +37,13 @@ public class EmployeeView implements Initializable {
     private Button editButton;
     @FXML
     private Button filterButton;
+
+    @FXML
+    private TextField brandFilter;
+    @FXML
+    private CheckBox availabilityFilter;
+    @FXML
+    private TextField priceFilter;
 
     private final int idShop;
     private final ProductPresenter productPresenter = new ProductPresenter();
@@ -78,7 +83,19 @@ public class EmployeeView implements Initializable {
             }
         });
         filterButton.setOnAction(e -> {
-
+            String brand = brandFilter.getText();
+            boolean availability = availabilityFilter.isSelected();
+            float price;
+            if(brand.isEmpty()) {
+                brand = "";
+            }
+            try {
+                price = Float.parseFloat(priceFilter.getText());
+            } catch (NumberFormatException exception) {
+                price = -1;
+            }
+            List<Product> filteredItems = productPresenter.filterProducts(brand, availability, price);
+            Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, filteredItems);
         });
         editButton.setOnAction(e -> {
             Product product = productTableView.getSelectionModel().getSelectedItem();

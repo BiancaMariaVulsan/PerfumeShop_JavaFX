@@ -33,6 +33,15 @@ public class ProductPresenter implements IProductPresenter {
                 .collect(Collectors.toList());
     }
 
+    public List<Product> filterProducts(String brand, boolean availability, float price) {
+        List<Product> products = getProducts();
+        return products.stream()
+                .filter(it -> brand.equals("") || it.getBrand().contains(brand))
+                .filter(it -> !availability || it.getAvailability())
+                .filter(it -> price == -1 || it.getPrice() <= price)
+                .collect(Collectors.toList());
+    }
+
     @Override
     public boolean addProduct(Product product, int shopId) {
         try {
