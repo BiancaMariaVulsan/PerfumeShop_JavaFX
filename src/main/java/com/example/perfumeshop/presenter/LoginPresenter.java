@@ -1,5 +1,6 @@
 package com.example.perfumeshop.presenter;
 
+import com.example.perfumeshop.model.Employee;
 import com.example.perfumeshop.view.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
@@ -86,7 +87,7 @@ public class LoginPresenter implements ILoginPresenter { ;
         } else {
             Callback<Class<?>, Object> controllerFactory = type -> {
                 if (type == EmployeeView.class) {
-                    return new EmployeeView();
+                    return new EmployeeView(EmployeePresenter.getShopId(username.getText()));
                 } else {
                     try {
                         return type.newInstance();

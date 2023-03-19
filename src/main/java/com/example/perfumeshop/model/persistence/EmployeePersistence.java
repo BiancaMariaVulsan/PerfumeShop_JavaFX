@@ -1,11 +1,15 @@
 package com.example.perfumeshop.model.persistence;
 
 import com.example.perfumeshop.model.Employee;
+import com.example.perfumeshop.model.Person;
+import com.example.perfumeshop.model.Role;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EmployeePersistence extends DatabaseObj<Employee> {
 
@@ -71,5 +75,34 @@ public class EmployeePersistence extends DatabaseObj<Employee> {
         sb.append(" WHERE id=");
         sb.append(person.getId());
         return sb.toString();
+    }
+
+    protected String createSelectQuery(String field) {
+        return "SELECT * FROM person WHERE role=" + Role.EMPLOYEE.ordinal();
+    }
+
+    protected List<Employee> createObjects(ResultSet resultSet) {
+        try{
+            List<Employee> persons = new ArrayList<>();
+            while (resultSet.next())
+            {
+                int id = resultSet.getInt("id");
+                String firstName = resultSet.getString("firstName");
+                String lastName = resultSet.getString("lastName");
+                String username = resultSet.getString("username");
+                String password = resultSet.getString("password");
+                int roleNr = resultSet.getInt("role");
+                Role role = Role.values()[roleNr];
+                if(role.equals(Role.EMPLOYEE)) {
+                    int idShop = resultSet.getInt("id_shop");
+                    Employee person = new Employee(id, firstName, lastName, username, password, idShop);
+                    persons.add(person);
+                }
+            }
+            return persons;
+        } catch (java.sql.SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 }

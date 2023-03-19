@@ -142,7 +142,7 @@ public class DatabaseObj<T> {
         }
     }
 
-    private String createSelectQuery(String field) {
+    protected String createSelectQuery(String field) {
         StringBuilder sb = new StringBuilder();
         sb.append("SELECT ");
         sb.append("*");
