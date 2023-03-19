@@ -87,4 +87,20 @@ public class ProductPersistence extends DatabaseObj<Product> {
             ConnectionFactory.close(connection);
         }
     }
+
+    public void insertProductInShop(int shopId, int productId) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        String query = "INSERT INTO shop_product (id_product, id_shop) VALUES (" + productId + "," + shopId + ")";
+        try {
+            connection = ConnectionFactory.getConnection();
+            statement = connection.prepareStatement(query);
+            statement.executeUpdate();
+        }catch(SQLException e){
+            LOGGER.log(Level.WARNING, e.getMessage());
+        }finally{
+            ConnectionFactory.close(statement);
+            ConnectionFactory.close(connection);
+        }
+    }
 }

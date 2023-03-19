@@ -62,7 +62,7 @@ public class AddProductView implements Initializable {
         saveButton.setOnAction(e -> {
             //todo: make sure the price is valid
             Product product = new Product(nameText.getText(), brandText.getText(), availabilityCheck.isSelected(), Double.parseDouble(priceText.getText()));
-            productPresenter.addProduct(product);
+            productPresenter.addProduct(product, idShop);
             Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, idShop);
         });
     }

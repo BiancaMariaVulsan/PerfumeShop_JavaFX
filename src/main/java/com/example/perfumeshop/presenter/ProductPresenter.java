@@ -34,9 +34,15 @@ public class ProductPresenter implements IProductPresenter {
     }
 
     @Override
-    public boolean addProduct(Product product) {
+    public boolean addProduct(Product product, int shopId) {
         try {
             productPersistence.insert(product);
+            Product insertedProduct = productPersistence.findAll()
+                    .stream().filter(p -> p.getName().equals(product.getName()) && p.getBrand().equals(product.getBrand())
+                    && p.getPrice() == product.getPrice() && p.getAvailability() == product.getAvailability())
+                    .findFirst()
+                    .orElse(null);
+            productPersistence.insertProductInShop(shopId, insertedProduct.getId());
             return true;
         } catch (Exception e) {
             return false;

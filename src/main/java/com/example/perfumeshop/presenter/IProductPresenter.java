@@ -9,5 +9,5 @@ public interface IProductPresenter {
     List<Product> getProducts();
     List<Product> getProducts(int idShop);
     List<Product> filterProducts(String name, String brand, boolean availability, float price);
-    boolean addProduct(Product product);
+    boolean addProduct(Product product, int shopId);
 }
