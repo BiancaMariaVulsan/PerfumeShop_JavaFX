@@ -13,6 +13,13 @@ public class PersonPresenter {
         return personPersistence.findAll();
     }
 
+    public static Person getPersonByUsername(String username) {
+        return personPersistence.findAll().stream()
+                .filter(p -> p.getUsername().equals(username))
+                .findFirst()
+                .orElse(null);
+    }
+
     public static boolean addPerson(Person person) {
         try {
             if(person.getRole()!=Role.EMPLOYEE) {

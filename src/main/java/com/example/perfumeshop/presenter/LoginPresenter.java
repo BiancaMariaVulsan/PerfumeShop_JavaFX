@@ -1,9 +1,8 @@
 package com.example.perfumeshop.presenter;
 
-import com.example.perfumeshop.model.Employee;
+import com.example.perfumeshop.model.Person;
+import com.example.perfumeshop.model.Role;
 import com.example.perfumeshop.view.*;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TextField;
 import javafx.util.Callback;
 
 public class LoginPresenter implements ILoginPresenter { ;
@@ -26,37 +25,14 @@ public class LoginPresenter implements ILoginPresenter { ;
     }
 
     public void signIn() {
-        TextField username = loginView.getUsernameTextField();
-        TextField password = loginView.getPasswordTextField();
-        boolean isAdmin = true;
-        boolean isEmployee = true;
-        boolean isManager = true;
-
-        if (username.getText().isEmpty() || password.getText().isEmpty()) {
-            Presenter.initAlarmBox("Error", "You must complete both username and password fields!", Alert.AlertType.ERROR);
-            return;
-
+        String username = loginView.getUsernameTextField().getText();
+        String password = loginView.getPasswordTextField().getText();
+        Person person = PersonPresenter.getPersonByUsername(username);
+        if(!person.getPassword().equals(password)){
+            System.err.println("The password is not correct, please try again!");
+            throw new RuntimeException();
         }
-        if (username.getText().equals("admin") && password.getText().equals("admin")) {
-            isAdmin = true;
-            isEmployee = false;
-            isManager = false;
-        } else if (username.getText().equals("manager") && password.getText().equals("manager")) {
-            isEmployee = false;
-            isAdmin = false;
-            isManager = true;
-        } else {
-                if (EmployeePresenter.checkEmployeeExists(username.getText())){
-                    isAdmin = false;
-                    isEmployee = true;
-                    isManager = false;
-                }
-                else {
-                    Presenter.initAlarmBox("Error", "There is no user with this username and password!", Alert.AlertType.ERROR);
-                    return;
-                }
-        }
-        if (isAdmin) {
+        if (person.getRole().equals(Role.ADMIN)) {
             Callback<Class<?>, Object> controllerFactory = type -> {
                 if (type == AdminView.class) {
                     return new AdminView();
@@ -70,7 +46,7 @@ public class LoginPresenter implements ILoginPresenter { ;
                 }
             };
             Presenter.loadFXML("/com/example/perfumeshop/admin-view.fxml", controllerFactory);
-        } else if (isManager) {
+        } else if (person.getRole().equals(Role.MANAGER)) {
             Callback<Class<?>, Object> controllerFactory = type -> {
                 if (type == ManagerView.class) {
                     return new ManagerView();
@@ -87,7 +63,7 @@ public class LoginPresenter implements ILoginPresenter { ;
         } else {
             Callback<Class<?>, Object> controllerFactory = type -> {
                 if (type == EmployeeView.class) {
-                    return new EmployeeView(EmployeePresenter.getShopId(username.getText()));
+                    return new EmployeeView(EmployeePresenter.getShopId(username));
                 } else {
                     try {
                         return type.newInstance();
