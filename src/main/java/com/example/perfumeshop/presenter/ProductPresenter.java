@@ -5,6 +5,7 @@ import com.example.perfumeshop.model.persistence.ProductPersistence;
 import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
+import org.w3c.dom.Text;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -27,13 +28,32 @@ public class ProductPresenter implements IProductPresenter {
         return productsMap.get(idShop);
     }
     @Override
-    public List<Product> filterProducts(String name, String brand, boolean availability, float price) {
+    public List<Product> filterProducts(TextField nameFilter, TextField brandFilter, CheckBox availabilityFilter, TextField priceFilter) {
+        String name = nameFilter.getText();
+        String brand = brandFilter.getText();
+        boolean availability = availabilityFilter.isSelected();
+        double price;
+        if(name.isEmpty()) {
+            name = "";
+        }
+        if(brand.isEmpty()) {
+            brand = "";
+        }
+        try {
+            price = Double.parseDouble(priceFilter.getText());
+        } catch (NumberFormatException exception) {
+            price = -1;
+        }
+
         List<Product> products = getProducts();
+        String finalName = name;
+        String finalBrand = brand;
+        double finalPrice = price;
         return products.stream()
-                .filter(it -> name.equals("") || it.getName().contains(name))
-                .filter(it -> brand.equals("") || it.getBrand().contains(brand))
+                .filter(it -> finalName.equals("") || it.getName().contains(finalName))
+                .filter(it -> finalBrand.equals("") || it.getBrand().contains(finalBrand))
                 .filter(it -> !availability || it.getAvailability())
-                .filter(it -> price == -1 || it.getPrice() <= price)
+                .filter(it -> finalPrice == -1 || it.getPrice() <= finalPrice)
                 .collect(Collectors.toList());
     }
     @Override

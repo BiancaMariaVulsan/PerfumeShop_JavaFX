@@ -11,7 +11,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class ManagerView implements Initializable {
@@ -50,27 +49,15 @@ public class ManagerView implements Initializable {
         Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn);
 
         filterButton.setOnAction(e -> {
-            String name = nameFilter.getText();
-            String brand = brandFilter.getText();
-            boolean availability = availabilityFilter.isSelected();
-            float price;
-            if(name.isEmpty()) {
-                name = "";
-            }
-            try {
-                price = Float.parseFloat(priceFilter.getText());
-            } catch (NumberFormatException exception) {
-                price = -1;
-            }
-            List<Product> filteredItems = productPresenter.filterProducts(name, brand, availability, price);
+            var filteredItems = productPresenter.filterProducts(nameFilter, brandFilter, availabilityFilter, priceFilter);
             Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, filteredItems);
         });
         sortNameButton.setOnAction(e -> {
-            List<Product> sortedItems = productPresenter.sortByName();
+            var sortedItems = productPresenter.sortByName();
             Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, sortedItems);
         });
         sortPriceButton.setOnAction(e -> {
-            List<Product> sortedItems = productPresenter.sortByPrice();
+            var sortedItems = productPresenter.sortByPrice();
             Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, sortedItems);
         });
     }
