@@ -85,11 +85,11 @@ public class AddProductView implements Initializable {
         saveButton.setOnAction(e -> {
             if(isEditing) {
 //                productPresenter.updateProduct(productToUpdate.getId(),nameText, brandText, availabilityCheck, priceText, idShop);
-                productPresenter.updateProductInShop(productToUpdate.getProduct().getId(), stockText, idShop);
-                Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, idShop);
+                var products = productPresenter.updateProductInShop(productToUpdate.getProduct(), stockText, idShop);
+                Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, products);
             } else {
-                productPresenter.addProduct(nameText, brandText, stockText, priceText, idShop);
-                Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, idShop);
+                var products = productPresenter.addProduct(nameText, brandText, stockText, priceText, idShop);
+                Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, products);
             }
         });
     }

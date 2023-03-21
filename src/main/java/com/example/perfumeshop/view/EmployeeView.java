@@ -1,6 +1,5 @@
 package com.example.perfumeshop.view;
 
-import com.example.perfumeshop.model.Product;
 import com.example.perfumeshop.model.ShopProduct;
 import com.example.perfumeshop.presenter.Presenter;
 import com.example.perfumeshop.presenter.ProductPresenter;
@@ -69,11 +68,8 @@ public class EmployeeView implements Initializable {
             Presenter.loadFXML("/com/example/perfumeshop/add-product-view.fxml", controllerFactory);
         });
         deleteButton.setOnAction(e -> {
-            if(productPresenter.deleteProduct(productTableView.getSelectionModel().getSelectedItem().getProduct(), idShop)) {
-                Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, idShop);
-            } else {
-                Presenter.initAlarmBox("Warning", "Delete operation failed, please try again!", Alert.AlertType.WARNING);
-            }
+            var products = productPresenter.deleteProduct(productTableView.getSelectionModel().getSelectedItem().getProduct(), idShop);
+            Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, products);
         });
         filterButton.setOnAction(e -> {
             var filteredItems = productPresenter.filterProducts(brandFilter, availabilityFilter, priceFilter, idShop);

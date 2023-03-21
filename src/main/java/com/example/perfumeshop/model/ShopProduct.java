@@ -2,6 +2,7 @@ package com.example.perfumeshop.model;
 
 public class ShopProduct {
     private Product product;
+
     private int stock;
 
     public ShopProduct(Product product, int stock) {
@@ -14,5 +15,8 @@ public class ShopProduct {
 
     public int getStock() {
         return stock;
+    }
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 }

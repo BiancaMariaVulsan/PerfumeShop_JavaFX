@@ -62,8 +62,8 @@ public class ProductPresenter implements IProductPresenter {
         String finalBrand = brand;
         double finalPrice = price;
         return products.stream()
-                .filter(it -> finalName.equals("") || it.getName().contains(finalName))
-                .filter(it -> finalBrand.equals("") || it.getBrand().contains(finalBrand))
+                .filter(it -> finalName.equals("") || it.getName().toLowerCase().contains(finalName.toLowerCase()))
+                .filter(it -> finalBrand.equals("") || it.getBrand().toLowerCase().contains(finalBrand.toLowerCase()))
                 .filter(it -> !availability || isAvailableInTheChain(it.getId()))
                 .filter(it -> finalPrice == -1 || it.getPrice() <= finalPrice)
                 .collect(Collectors.toList());
@@ -96,14 +96,14 @@ public class ProductPresenter implements IProductPresenter {
         String finalBrand = brand;
         double finalPrice = price;
         return products.stream()
-                .filter(it -> finalBrand.equals("") || it.getProduct().getBrand().contains(finalBrand))
+                .filter(it -> finalBrand.equals("") || it.getProduct().getBrand().toLowerCase().contains(finalBrand.toLowerCase()))
                 .filter(it -> !availability || (it.getStock() > 0))
                 .filter(it -> finalPrice == -1 || it.getProduct().getPrice() <= finalPrice)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public boolean addProduct(TextField nameText, TextField brandText, TextField stockText, TextField priceText, int shopId) {
+    public List<ShopProduct> addProduct(TextField nameText, TextField brandText, TextField stockText, TextField priceText, int shopId) {
         try {
             int stock = Integer.parseInt(stockText.getText());
             boolean availability = stock > 0;
@@ -116,27 +116,26 @@ public class ProductPresenter implements IProductPresenter {
                     .orElse(null);
             productPersistence.insertProductInShop(shopId, insertedProduct.getId(), stock);
             productsMap = getProductsMap();
-            return true;
         } catch (Exception e) {
             Presenter.initAlarmBox("Error", "Something went wrong when trying to add the product. Please make sure you insert valid properties!", Alert.AlertType.ERROR);
-            return false;
         }
+        return productsMap.get(shopId);
     }
 
     @Override
-    public boolean deleteProduct(Product product, int shopId) {
+    public List<ShopProduct> deleteProduct(Product product, int shopId) {
         if(product == null) {
             Presenter.initAlarmBox("Warning", "Please select the product to be deleted!", Alert.AlertType.WARNING);
-            return false;
+        } else {
+            try {
+//            productPersistence.delete(product);
+                productPersistence.deleteProductFromShop(shopId, product.getId());
+                productsMap = getProductsMap();
+            } catch (Exception e) {
+                Presenter.initAlarmBox("Warning", "Something went wrong!", Alert.AlertType.WARNING);
+            }
         }
-        try {
-            productPersistence.delete(product);
-            productPersistence.deleteProductFromShop(shopId, product.getId());
-            productsMap = getProductsMap();
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+        return  productsMap.get(shopId);
     }
 
     @Override
@@ -151,15 +150,20 @@ public class ProductPresenter implements IProductPresenter {
         }
     }
 
-    public boolean updateProductInShop(int productToUpdateId, TextField stock, int shopId) {
+    public List<ShopProduct> updateProductInShop(Product productToUpdate, TextField stock, int shopId) {
         try {
-            productPersistence.updateStockOfProduct(shopId, productToUpdateId, Integer.parseInt(stock.getText()));
-            productsMap = getProductsMap();
-            return true;
+            int newStock = Integer.parseInt(stock.getText());
+            productPersistence.updateStockOfProduct(shopId, productToUpdate.getId(), newStock);
+//            productsMap = getProductsMap();
+            for(ShopProduct shopP: productsMap.get(shopId)) {
+                if(shopP.getProduct().getId() == productToUpdate.getId()) {
+                    shopP.setStock(Integer.parseInt(stock.getText()));
+                }
+            }
         } catch (Exception e) {
             Presenter.initAlarmBox("Error", "Something went wrong when trying to update the stock of the the product. Please make sure you insert valid properties!", Alert.AlertType.ERROR);
-            return false;
         }
+        return productsMap.get(shopId);
     }
 
     @Override
