@@ -1,8 +1,6 @@
 package com.example.perfumeshop.view;
 
-import com.example.perfumeshop.model.Person;
 import com.example.perfumeshop.model.Product;
-import com.example.perfumeshop.presenter.PersonPresenter;
 import com.example.perfumeshop.presenter.Presenter;
 import com.example.perfumeshop.presenter.ProductPresenter;
 import javafx.collections.FXCollections;

@@ -13,4 +13,6 @@ public interface IProductPresenter {
     boolean addProduct(Product product, int shopId);
     boolean deleteProduct(Product product, int shopId);
     boolean updateProduct(Product product, int shopId);
+    List<Product> sortByName();
+    List<Product> sortByPrice();
 }

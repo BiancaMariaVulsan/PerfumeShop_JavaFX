@@ -1,11 +1,9 @@
 package com.example.perfumeshop.view;
 
 import com.example.perfumeshop.presenter.LoginPresenter;
-import com.example.perfumeshop.presenter.Presenter;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.util.Callback;
 
 public class LogInView implements ILoginView {
     @FXML

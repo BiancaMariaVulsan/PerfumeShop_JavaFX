@@ -1,17 +1,13 @@
 package com.example.perfumeshop.view;
 
-import com.example.perfumeshop.model.Person;
 import com.example.perfumeshop.model.Product;
 import com.example.perfumeshop.presenter.IProductPresenter;
 import com.example.perfumeshop.presenter.Presenter;
 import com.example.perfumeshop.presenter.ProductPresenter;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.util.Builder;
-import javafx.util.Callback;
 
 import java.net.URL;
 import java.util.ResourceBundle;

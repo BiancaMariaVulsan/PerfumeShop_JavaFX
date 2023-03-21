@@ -3,6 +3,7 @@ package com.example.perfumeshop.presenter;
 import com.example.perfumeshop.model.Product;
 import com.example.perfumeshop.model.persistence.ProductPersistence;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,6 +78,16 @@ public class ProductPresenter implements IProductPresenter {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @Override
+    public List<Product> sortByName() {
+        return this.getProducts().stream().sorted(Comparator.comparing(Product::getName)).toList();
+    }
+
+    @Override
+    public List<Product> sortByPrice() {
+        return this.getProducts().stream().sorted(Comparator.comparing(Product::getPrice)).toList();
     }
 
     private Map<Integer, List<Product>> getProductsMap() {

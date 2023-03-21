@@ -67,5 +67,13 @@ public class ManagerView implements Initializable {
             List<Product> filteredItems = productPresenter.filterProducts(name, brand, availability, price);
             Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, filteredItems);
         });
+        sortNameButton.setOnAction(e -> {
+            List<Product> sortedItems = productPresenter.sortByName();
+            Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, sortedItems);
+        });
+        sortPriceButton.setOnAction(e -> {
+            List<Product> sortedItems = productPresenter.sortByPrice();
+            Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, sortedItems);
+        });
     }
 }
