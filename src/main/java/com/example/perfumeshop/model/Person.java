@@ -5,6 +5,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+import java.util.Objects;
+
 public class Person {
     private final IntegerProperty id =  new SimpleIntegerProperty();
     private final StringProperty firstName =  new SimpleStringProperty();
@@ -111,5 +113,19 @@ public class Person {
                 ", password=" + password +
                 ", role=" + role +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Person person)) return false;
+        if (getClass() != o.getClass()) return false;
+        return username.get().equals(person.username.get()) && password.get().equals(person.password.get()) && role == ((Person) o).role
+                && firstName.get().equals(person.firstName.get()) && lastName.get().equals(person.lastName.get());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName, lastName, username, password, role);
     }
 }

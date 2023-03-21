@@ -1,7 +1,5 @@
 package com.example.perfumeshop.model;
 
-import java.util.List;
-
 public class Shop {
     private String name;
     private int id;

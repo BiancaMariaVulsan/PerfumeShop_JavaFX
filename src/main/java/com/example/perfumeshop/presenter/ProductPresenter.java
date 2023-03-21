@@ -5,7 +5,6 @@ import com.example.perfumeshop.model.persistence.ProductPersistence;
 import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
-import org.w3c.dom.Text;
 
 import java.util.Comparator;
 import java.util.HashMap;
