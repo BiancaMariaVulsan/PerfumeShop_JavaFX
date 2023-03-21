@@ -29,16 +29,7 @@ public class LogInView implements ILoginView {
     public TextField getUsernameTextField() {
         return usernameTextField;
     }
-
-    public void setUsernameTextField(TextField usernameTextField) {
-        this.usernameTextField = usernameTextField;
-    }
-
     public TextField getPasswordTextField() {
         return passwordTextField;
-    }
-
-    public void setPasswordTextField(TextField passwordTextField) {
-        this.passwordTextField = passwordTextField;
     }
 }

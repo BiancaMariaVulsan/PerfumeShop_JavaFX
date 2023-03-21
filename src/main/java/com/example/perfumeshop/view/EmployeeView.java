@@ -11,7 +11,6 @@ import javafx.scene.control.*;
 import javafx.util.Callback;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class EmployeeView implements Initializable {
@@ -69,30 +68,14 @@ public class EmployeeView implements Initializable {
             Presenter.loadFXML("/com/example/perfumeshop/add-product-view.fxml", controllerFactory);
         });
         deleteButton.setOnAction(e -> {
-            Product product = productTableView.getSelectionModel().getSelectedItem();
-            if(product == null) {
-                Presenter.initAlarmBox("Warning", "Please select the product to be deleted!", Alert.AlertType.WARNING);
-                return;
-            }
-            if(productPresenter.deleteProduct(product, idShop)) {
+            if(productPresenter.deleteProduct(productTableView.getSelectionModel().getSelectedItem(), idShop)) {
                 Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, idShop);
             } else {
                 Presenter.initAlarmBox("Warning", "Delete operation failed, please try again!", Alert.AlertType.WARNING);
             }
         });
         filterButton.setOnAction(e -> {
-            String brand = brandFilter.getText();
-            boolean availability = availabilityFilter.isSelected();
-            float price;
-            if(brand.isEmpty()) {
-                brand = "";
-            }
-            try {
-                price = Float.parseFloat(priceFilter.getText());
-            } catch (NumberFormatException exception) {
-                price = -1;
-            }
-            List<Product> filteredItems = productPresenter.filterProducts(brand, availability, price, idShop);
+            var filteredItems = productPresenter.filterProducts(brandFilter, availabilityFilter, priceFilter, idShop);
             Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, filteredItems);
         });
         editButton.setOnAction(e -> {

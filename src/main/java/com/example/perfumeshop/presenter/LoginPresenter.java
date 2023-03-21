@@ -12,19 +12,6 @@ public class LoginPresenter implements ILoginPresenter { ;
         this.loginView = loginView;
     }
 
-    public Object register(Class<?> type) {
-        if (type == RegisterView.class) {
-            return new RegisterView();
-        } else {
-            try {
-                return type.newInstance();
-            } catch (Exception exc) {
-                System.err.println("Could not load register controller..." + type.getName());
-                throw new RuntimeException(exc);
-            }
-        }
-    }
-
     public void signIn() {
         String username = loginView.getUsernameTextField().getText();
         String password = loginView.getPasswordTextField().getText();

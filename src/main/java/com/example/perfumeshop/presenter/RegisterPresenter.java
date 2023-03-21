@@ -20,7 +20,7 @@ public class RegisterPresenter implements IRegisterPresenter {
     public RegisterPresenter(IRegisterView registerView) {
         this.registerView = registerView;
     }
-
+    @Override
     public void setProgressIndicator() {
         ArrayList<TextField> textFields = new ArrayList<>();
         textFields.add(registerView.getUsernameTextField());
@@ -40,7 +40,7 @@ public class RegisterPresenter implements IRegisterPresenter {
             });
         }
     }
-
+    @Override
     public void register() {
         Role role = registerView.getRoleChoiceBox().getValue();
         Person person;
@@ -87,6 +87,7 @@ public class RegisterPresenter implements IRegisterPresenter {
             Presenter.initAlarmBox("Error", "An error occurred during the registration, please try again!", Alert.AlertType.ERROR);
         }
     }
+    @Override
     public void initShopCheckBox() {
         List<Shop> shops = ShopPresenter.getShops();
         for(Shop shop: shops) {
@@ -94,7 +95,7 @@ public class RegisterPresenter implements IRegisterPresenter {
         }
         registerView.getShopChoiceBox().setValue(shops.get(0)); // suppose there is at least one shop
     }
-
+    @Override
     public void enableShopChoiceBox(Role role) {
         if(role.equals(Role.EMPLOYEE)) {
             registerView.getShopChoiceBox().setDisable(false);

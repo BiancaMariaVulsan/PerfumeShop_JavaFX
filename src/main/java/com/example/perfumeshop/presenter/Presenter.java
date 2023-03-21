@@ -15,6 +15,7 @@ import javafx.util.Callback;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 public class Presenter {
     public static void loadFXML(String fxmlFile, Callback<Class<?>, Object> controllerFactory) {
@@ -38,14 +39,14 @@ public class Presenter {
         }
     }
 
-    public static void initAlarmBox(String title, String message, Alert.AlertType alertType) {
+    public static Optional<ButtonType> initAlarmBox(String title, String message, Alert.AlertType alertType) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
         alert.setContentText(message);
         Button confirm = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
         confirm.setDefaultButton(false);
         confirm.setStyle("-fx-focus-color: transparent; -fx-faint-focus-color: transparent;");
-        alert.showAndWait();
+        return alert.showAndWait();
     }
 
 

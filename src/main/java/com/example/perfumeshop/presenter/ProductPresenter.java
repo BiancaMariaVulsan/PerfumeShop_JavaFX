@@ -57,12 +57,26 @@ public class ProductPresenter implements IProductPresenter {
                 .collect(Collectors.toList());
     }
     @Override
-    public List<Product> filterProducts(String brand, boolean availability, float price, int shopId) {
+    public List<Product> filterProducts(TextField brandFilter, CheckBox availabilityFilter, TextField priceFilter, int shopId) {
+        String brand = brandFilter.getText();
+        boolean availability = availabilityFilter.isSelected();
+        double price;
+        if(brand.isEmpty()) {
+            brand = "";
+        }
+        try {
+            price = Double.parseDouble(priceFilter.getText());
+        } catch (NumberFormatException exception) {
+            price = -1;
+        }
+
         List<Product> products = getProductsMap().get(shopId);
+        String finalBrand = brand;
+        double finalPrice = price;
         return products.stream()
-                .filter(it -> brand.equals("") || it.getBrand().contains(brand))
+                .filter(it -> finalBrand.equals("") || it.getBrand().contains(finalBrand))
                 .filter(it -> !availability || it.getAvailability())
-                .filter(it -> price == -1 || it.getPrice() <= price)
+                .filter(it -> finalPrice == -1 || it.getPrice() <= finalPrice)
                 .collect(Collectors.toList());
     }
 
@@ -86,6 +100,10 @@ public class ProductPresenter implements IProductPresenter {
 
     @Override
     public boolean deleteProduct(Product product, int shopId) {
+        if(product == null) {
+            Presenter.initAlarmBox("Warning", "Please select the product to be deleted!", Alert.AlertType.WARNING);
+            return false;
+        }
         try {
             productPersistence.delete(product);
             productPersistence.deleteProductFromShop(shopId, product.getId());
