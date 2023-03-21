@@ -3,11 +3,11 @@ package com.example.perfumeshop.view;
 import javafx.scene.control.TextField;
 
 public interface ILoginView {
-    public TextField getUsernameTextField();
+    TextField getUsernameTextField();
 
-    public void setUsernameTextField(TextField usernameTextField);
+    void setUsernameTextField(TextField usernameTextField);
 
-    public TextField getPasswordTextField();
+    TextField getPasswordTextField();
 
-    public void setPasswordTextField(TextField passwordTextField);
+    void setPasswordTextField(TextField passwordTextField);
 }

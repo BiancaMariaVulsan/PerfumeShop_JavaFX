@@ -17,7 +17,7 @@ import java.util.ResourceBundle;
 public class EmployeeView implements Initializable {
     @FXML
     private TableView<Product> productTableView;
-    private ObservableList<Product> productItems = FXCollections.observableArrayList();
+    private final ObservableList<Product> productItems = FXCollections.observableArrayList();
     @FXML
     private TableColumn<Product, String> nameColumn;
     @FXML

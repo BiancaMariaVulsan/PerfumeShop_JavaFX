@@ -4,9 +4,9 @@ import com.example.perfumeshop.model.Person;
 import com.example.perfumeshop.model.Role;
 
 public interface IRegisterPresenter {
-    public void setProgressIndicator();
-    public void register();
-    public void updatePerson(Person personToUpdate);
-    public void initShopCheckBox();
-    public void enableShopChoiceBox(Role role);
+    void setProgressIndicator();
+    void register();
+    void updatePerson(Person personToUpdate);
+    void initShopCheckBox();
+    void enableShopChoiceBox(Role role);
 }

@@ -4,8 +4,6 @@ import com.example.perfumeshop.model.Product;
 import com.example.perfumeshop.presenter.IProductPresenter;
 import com.example.perfumeshop.presenter.Presenter;
 import com.example.perfumeshop.presenter.ProductPresenter;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

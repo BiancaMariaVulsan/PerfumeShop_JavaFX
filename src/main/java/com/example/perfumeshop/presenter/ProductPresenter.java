@@ -2,6 +2,9 @@ package com.example.perfumeshop.presenter;
 
 import com.example.perfumeshop.model.Product;
 import com.example.perfumeshop.model.persistence.ProductPersistence;
+import javafx.scene.control.Alert;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextField;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -23,7 +26,7 @@ public class ProductPresenter implements IProductPresenter {
         productsMap = getProductsMap();
         return productsMap.get(idShop);
     }
-
+    @Override
     public List<Product> filterProducts(String name, String brand, boolean availability, float price) {
         List<Product> products = getProducts();
         return products.stream()
@@ -33,7 +36,7 @@ public class ProductPresenter implements IProductPresenter {
                 .filter(it -> price == -1 || it.getPrice() <= price)
                 .collect(Collectors.toList());
     }
-
+    @Override
     public List<Product> filterProducts(String brand, boolean availability, float price, int shopId) {
         List<Product> products = getProductsMap().get(shopId);
         return products.stream()
@@ -44,8 +47,9 @@ public class ProductPresenter implements IProductPresenter {
     }
 
     @Override
-    public boolean addProduct(Product product, int shopId) {
+    public boolean addProduct(TextField nameText, TextField brandText, CheckBox availabilityCheck, TextField priceText, int shopId) {
         try {
+            Product product = new Product(nameText.getText(), brandText.getText(), availabilityCheck.isSelected(), Double.parseDouble(priceText.getText()));
             productPersistence.insert(product);
             Product insertedProduct = productPersistence.findAll()
                     .stream().filter(p -> p.getName().equals(product.getName()) && p.getBrand().equals(product.getBrand())
@@ -55,6 +59,7 @@ public class ProductPresenter implements IProductPresenter {
             productPersistence.insertProductInShop(shopId, insertedProduct.getId());
             return true;
         } catch (Exception e) {
+            Presenter.initAlarmBox("Error", "Something went wrong when trying to add the product. Please make sure you insert valid properties!", Alert.AlertType.ERROR);
             return false;
         }
     }
@@ -71,11 +76,13 @@ public class ProductPresenter implements IProductPresenter {
     }
 
     @Override
-    public boolean updateProduct(Product product, int shopId) {
+    public boolean updateProduct(int productToUpdateId, TextField nameText, TextField brandText, CheckBox availabilityCheck, TextField priceText, int shopId) {
         try {
+            Product product = new Product(productToUpdateId, nameText.getText(), brandText.getText(), availabilityCheck.isSelected(), Double.parseDouble(priceText.getText()));
             productPersistence.update(product);
             return true;
         } catch (Exception e) {
+            Presenter.initAlarmBox("Error", "Something went wrong when trying to update the product. Please make sure you insert valid properties!", Alert.AlertType.ERROR);
             return false;
         }
     }

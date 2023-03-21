@@ -19,7 +19,7 @@ import java.util.ResourceBundle;
 public class AdminView implements Initializable {
     @FXML
     private TableView<Person> personTableView;
-    private ObservableList<Person> personItems = FXCollections.observableArrayList();
+    private final ObservableList<Person> personItems = FXCollections.observableArrayList();
     @FXML
     private TableColumn<Person, String> firstNameColumn;
     @FXML

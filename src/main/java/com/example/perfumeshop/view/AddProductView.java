@@ -25,18 +25,18 @@ public class AddProductView implements Initializable {
     private Button saveButton;
 
     @FXML
-    private TableView<Product> productTableView;
-    private ObservableList<Product> productItems;
+    private final TableView<Product> productTableView;
+    private final ObservableList<Product> productItems;
     @FXML
-    private TableColumn<Product, String> nameColumn;
+    private final TableColumn<Product, String> nameColumn;
     @FXML
-    private TableColumn<Product ,String> brandColumn;
+    private final TableColumn<Product ,String> brandColumn;
     @FXML
-    private TableColumn<Product, Boolean> availabilityColumn;
+    private final TableColumn<Product, Boolean> availabilityColumn;
     @FXML
-    private TableColumn<Product, Number> priceColumn;
+    private final TableColumn<Product, Number> priceColumn;
     private final int idShop;
-    private boolean isEditing;
+    private final boolean isEditing;
     private Product productToUpdate;
 
     IProductPresenter productPresenter = new ProductPresenter(); //todo: change similar to register if needed
@@ -84,13 +84,10 @@ public class AddProductView implements Initializable {
 
         saveButton.setOnAction(e -> {
             if(isEditing) {
-                Product product = new Product(productToUpdate.getId(), nameText.getText(), brandText.getText(), availabilityCheck.isSelected(), Double.parseDouble(priceText.getText()));
-                productPresenter.updateProduct(product, idShop);
+                productPresenter.updateProduct(productToUpdate.getId(),nameText, brandText, availabilityCheck, priceText, idShop);
                 Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, idShop);
             } else {
-                //todo: make sure the price is valid
-                Product product = new Product(nameText.getText(), brandText.getText(), availabilityCheck.isSelected(), Double.parseDouble(priceText.getText()));
-                productPresenter.addProduct(product, idShop);
+                productPresenter.addProduct(nameText, brandText, availabilityCheck, priceText, idShop);
                 Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, idShop);
             }
         });
