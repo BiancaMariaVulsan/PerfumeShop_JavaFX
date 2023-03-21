@@ -1,9 +1,7 @@
 package com.example.perfumeshop.presenter;
 
-import com.example.perfumeshop.model.Role;
 import com.example.perfumeshop.model.Shop;
 import com.example.perfumeshop.model.persistence.ShopPersistence;
-import com.example.perfumeshop.view.IRegisterView;
 
 import java.util.List;
 

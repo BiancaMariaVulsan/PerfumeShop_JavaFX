@@ -11,10 +11,10 @@
         <TextField fx:id="nameText" layoutX="96.0" layoutY="91.0" />
         <Label layoutX="40.0" layoutY="95.0" text="Name" />
         <Label layoutX="40.0" layoutY="152.0" text="Brand" />
-        <Label layoutX="36.0" layoutY="213.0" text="Availability" />
-        <Label layoutX="51.0" layoutY="269.0" text="Price" />
+        <Label layoutX="41.0" layoutY="213.0" text="Stock" />
+        <Label layoutX="42.0" layoutY="269.0" text="Price" />
         <Label layoutX="149.0" layoutY="34.0" text="Product" />
-      <CheckBox fx:id="availabilityCheck" layoutX="112.0" layoutY="213.0" mnemonicParsing="false" />
+      <TextField fx:id="stockText" layoutX="95.0" layoutY="209.0" />
     </children>
 
 </AnchorPane>

@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 public class ManagerView implements Initializable {
     @FXML
     private TableView<Product> productTableView;
-    private ObservableList<Product> productItems = FXCollections.observableArrayList();
+    private final ObservableList<Product> productItems = FXCollections.observableArrayList();
     @FXML
     private TableColumn<Product, String> nameColumn;
     @FXML
@@ -50,15 +50,15 @@ public class ManagerView implements Initializable {
 
         filterButton.setOnAction(e -> {
             var filteredItems = productPresenter.filterProducts(nameFilter, brandFilter, availabilityFilter, priceFilter);
-            Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, filteredItems);
+            Presenter.populateTableProductsFiltered(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, filteredItems);
         });
         sortNameButton.setOnAction(e -> {
             var sortedItems = productPresenter.sortByName();
-            Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, sortedItems);
+            Presenter.populateTableProductsFiltered(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, sortedItems);
         });
         sortPriceButton.setOnAction(e -> {
             var sortedItems = productPresenter.sortByPrice();
-            Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, sortedItems);
+            Presenter.populateTableProductsFiltered(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, sortedItems);
         });
     }
 }

@@ -1,13 +1,16 @@
 package com.example.perfumeshop.view;
 
-import com.example.perfumeshop.model.Product;
+import com.example.perfumeshop.model.ShopProduct;
 import com.example.perfumeshop.presenter.IProductPresenter;
 import com.example.perfumeshop.presenter.Presenter;
 import com.example.perfumeshop.presenter.ProductPresenter;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -18,32 +21,32 @@ public class AddProductView implements Initializable {
     @FXML
     private TextField brandText;
     @FXML
-    private CheckBox availabilityCheck;
+    private TextField stockText;
     @FXML
     private TextField priceText;
     @FXML
     private Button saveButton;
 
     @FXML
-    private final TableView<Product> productTableView;
-    private final ObservableList<Product> productItems;
+    private final TableView<ShopProduct> productTableView;
+    private final ObservableList<ShopProduct> productItems;
     @FXML
-    private final TableColumn<Product, String> nameColumn;
+    private final TableColumn<ShopProduct, String> nameColumn;
     @FXML
-    private final TableColumn<Product ,String> brandColumn;
+    private final TableColumn<ShopProduct ,String> brandColumn;
     @FXML
-    private final TableColumn<Product, Boolean> availabilityColumn;
+    private final TableColumn<ShopProduct, Boolean> availabilityColumn;
     @FXML
-    private final TableColumn<Product, Number> priceColumn;
+    private final TableColumn<ShopProduct, Number> priceColumn;
     private final int idShop;
     private final boolean isEditing;
-    private Product productToUpdate;
+    private ShopProduct productToUpdate;
 
     IProductPresenter productPresenter = new ProductPresenter(); //todo: change similar to register if needed
 
-    public AddProductView(TableView<Product> productTableView, ObservableList<Product> productItems,
-                          TableColumn<Product, String> nameColumn, TableColumn<Product, String> brandColumn,
-                          TableColumn<Product, Boolean> availabilityColumn, TableColumn<Product, Number> priceColumn,
+    public AddProductView(TableView<ShopProduct> productTableView, ObservableList<ShopProduct> productItems,
+                          TableColumn<ShopProduct, String> nameColumn, TableColumn<ShopProduct, String> brandColumn,
+                          TableColumn<ShopProduct, Boolean> availabilityColumn, TableColumn<ShopProduct, Number> priceColumn,
                           int idShop) {
         isEditing = false;
         this.productTableView = productTableView;
@@ -55,9 +58,9 @@ public class AddProductView implements Initializable {
         this.idShop = idShop;
     }
 
-    public AddProductView(Product product, TableView<Product> productTableView, ObservableList<Product> productItems,
-                          TableColumn<Product, String> nameColumn, TableColumn<Product, String> brandColumn,
-                          TableColumn<Product, Boolean> availabilityColumn, TableColumn<Product, Number> priceColumn,
+    public AddProductView(ShopProduct product, TableView<ShopProduct> productTableView, ObservableList<ShopProduct> productItems,
+                          TableColumn<ShopProduct, String> nameColumn, TableColumn<ShopProduct, String> brandColumn,
+                          TableColumn<ShopProduct, Boolean> availabilityColumn, TableColumn<ShopProduct, Number> priceColumn,
                           int idShop) {
         isEditing = true;
         this.productTableView = productTableView;
@@ -70,24 +73,22 @@ public class AddProductView implements Initializable {
         this.productToUpdate = product;
     }
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if(isEditing) {
-            nameText.setText(productToUpdate.getName());
-            brandText.setText(productToUpdate.getBrand());
-            if(productToUpdate.getAvailability()) {
-                availabilityCheck.isSelected();
-            }
-            priceText.setText(String.valueOf(productToUpdate.getPrice()));
+            nameText.setText(productToUpdate.getProduct().getName());
+            brandText.setText(productToUpdate.getProduct().getBrand());
+            stockText.setText(String.valueOf(productToUpdate.getStock()));
+            priceText.setText(String.valueOf(productToUpdate.getProduct().getPrice()));
         }
 
         saveButton.setOnAction(e -> {
             if(isEditing) {
-                productPresenter.updateProduct(productToUpdate.getId(),nameText, brandText, availabilityCheck, priceText, idShop);
+//                productPresenter.updateProduct(productToUpdate.getId(),nameText, brandText, availabilityCheck, priceText, idShop);
+                productPresenter.updateProductInShop(productToUpdate.getProduct().getId(), stockText, idShop);
                 Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, idShop);
             } else {
-                productPresenter.addProduct(nameText, brandText, availabilityCheck, priceText, idShop);
+                productPresenter.addProduct(nameText, brandText, stockText, priceText, idShop);
                 Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, idShop);
             }
         });

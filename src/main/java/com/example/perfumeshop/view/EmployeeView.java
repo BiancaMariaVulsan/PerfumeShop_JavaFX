@@ -1,6 +1,7 @@
 package com.example.perfumeshop.view;
 
 import com.example.perfumeshop.model.Product;
+import com.example.perfumeshop.model.ShopProduct;
 import com.example.perfumeshop.presenter.Presenter;
 import com.example.perfumeshop.presenter.ProductPresenter;
 import javafx.collections.FXCollections;
@@ -15,16 +16,16 @@ import java.util.ResourceBundle;
 
 public class EmployeeView implements Initializable {
     @FXML
-    private TableView<Product> productTableView;
-    private final ObservableList<Product> productItems = FXCollections.observableArrayList();
+    private TableView<ShopProduct> productTableView;
+    private final ObservableList<ShopProduct> productItems = FXCollections.observableArrayList();
     @FXML
-    private TableColumn<Product, String> nameColumn;
+    private TableColumn<ShopProduct, String> nameColumn;
     @FXML
-    private TableColumn<Product ,String> brandColumn;
+    private TableColumn<ShopProduct ,String> brandColumn;
     @FXML
-    private TableColumn<Product, Boolean> availabilityColumn;
+    private TableColumn<ShopProduct, Boolean> availabilityColumn;
     @FXML
-    private TableColumn<Product, Number> priceColumn;
+    private TableColumn<ShopProduct, Number> priceColumn;
 
     @FXML
     private Button addButton;
@@ -68,7 +69,7 @@ public class EmployeeView implements Initializable {
             Presenter.loadFXML("/com/example/perfumeshop/add-product-view.fxml", controllerFactory);
         });
         deleteButton.setOnAction(e -> {
-            if(productPresenter.deleteProduct(productTableView.getSelectionModel().getSelectedItem(), idShop)) {
+            if(productPresenter.deleteProduct(productTableView.getSelectionModel().getSelectedItem().getProduct(), idShop)) {
                 Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, idShop);
             } else {
                 Presenter.initAlarmBox("Warning", "Delete operation failed, please try again!", Alert.AlertType.WARNING);
@@ -79,7 +80,7 @@ public class EmployeeView implements Initializable {
             Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, filteredItems);
         });
         editButton.setOnAction(e -> {
-            Product product = productTableView.getSelectionModel().getSelectedItem();
+            ShopProduct product = productTableView.getSelectionModel().getSelectedItem();
             if(product == null) {
                 Presenter.initAlarmBox("Warning", "Please select the product to be updated!", Alert.AlertType.WARNING);
                 return;

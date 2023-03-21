@@ -6,21 +6,18 @@ public class Product {
     private final IntegerProperty id = new SimpleIntegerProperty();
     private final StringProperty name = new SimpleStringProperty();
     private final StringProperty brand = new SimpleStringProperty();
-    private final BooleanProperty availability = new SimpleBooleanProperty();
     private final DoubleProperty price = new SimpleDoubleProperty();
 
-    public Product(int id, String name, String brand, boolean availability, double price) {
+    public Product(int id, String name, String brand, double price) {
         this.id.set(id);
         this.name.set(name);
         this.brand.set(brand);
-        this.availability.set(availability);
         this.price.set(price);
     }
 
-    public Product(String name, String brand, boolean availability, double price) {
+    public Product(String name, String brand, double price) {
         this.name.set(name);
         this.brand.set(brand);
-        this.availability.set(availability);
         this.price.set(price);
     }
 
@@ -73,19 +70,6 @@ public class Product {
     public void setBrand(String brand) {
         this.brand.set(brand);
     }
-
-    public boolean getAvailability() {
-        return availability.get();
-    }
-
-    public BooleanProperty availabilityProperty() {
-        return availability;
-    }
-
-    public void setAvailability(boolean availability) {
-        this.availability.set(availability);
-    }
-
 
     @Override
         public String toString() {

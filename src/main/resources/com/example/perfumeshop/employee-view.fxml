@@ -10,7 +10,7 @@
             <columns>
                 <TableColumn fx:id="nameColumn" prefWidth="158.0" text="Name" />
                 <TableColumn fx:id="brandColumn" prefWidth="199.19998168945312" text="Brand" />
-                <TableColumn fx:id="availabilityColumn" minWidth="9.79998779296875" prefWidth="95.39999389648438" text="Availability" />
+                <TableColumn fx:id="availabilityColumn" minWidth="9.79998779296875" prefWidth="95.39999389648438" text="Stock" />
                 <TableColumn fx:id="priceColumn" prefWidth="83.79998779296875" text="Price" />
             </columns>
         </TableView>
@@ -21,6 +21,6 @@
         <TextField fx:id="priceFilter" layoutX="606.0" layoutY="87.0" prefHeight="26.0" prefWidth="78.0" />
       <Button fx:id="deleteButton" layoutX="694.0" layoutY="170.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="85.0" text="Delete" />
       <Button fx:id="editButton" layoutX="694.0" layoutY="292.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="85.0" text="Edit" />
-      <CheckBox fx:id="availabilityFilter" layoutX="542.0" layoutY="91.0" mnemonicParsing="false" prefWidth="24.0" />
+      <CheckBox fx:id="availabilityFilter" layoutX="544.0" layoutY="91.0" mnemonicParsing="false" />
     </children>
 </AnchorPane>

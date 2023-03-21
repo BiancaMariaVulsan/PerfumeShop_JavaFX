@@ -2,6 +2,7 @@ package com.example.perfumeshop.presenter;
 
 import com.example.perfumeshop.model.Person;
 import com.example.perfumeshop.model.Product;
+import com.example.perfumeshop.model.ShopProduct;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyDoubleWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -18,6 +19,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class Presenter {
+    static ProductPresenter productPresenter = new ProductPresenter();
+
     public static void loadFXML(String fxmlFile, Callback<Class<?>, Object> controllerFactory) {
         Stage programStage = new Stage();
         Parent programRoot;
@@ -49,16 +52,28 @@ public class Presenter {
         return alert.showAndWait();
     }
 
-
-    public static void populateTableProducts(TableView<Product> productTableView, ObservableList<Product> productItems, TableColumn<Product, String> nameColumn,
+    public static void populateTableProductsFiltered(TableView<Product> productTableView, ObservableList<Product> productItems, TableColumn<Product, String> nameColumn,
                                              TableColumn<Product ,String> brandColumn, TableColumn<Product, Boolean> availabilityColumn, TableColumn<Product, Number> priceColumn,
                                              List<Product> filteredProducts){
         productItems.clear();
         productTableView.getItems().clear();
         nameColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getName()));
         brandColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getBrand()));
-        availabilityColumn.setCellValueFactory(cellData -> new ReadOnlyBooleanWrapper(cellData.getValue().getAvailability()));
+        availabilityColumn.setCellValueFactory(cellData -> new ReadOnlyBooleanWrapper(productPresenter.isAvailableInTheChain(cellData.getValue().getId())));
         priceColumn.setCellValueFactory(cellData -> new ReadOnlyDoubleWrapper(cellData.getValue().getPrice()));
+        productItems.addAll(filteredProducts);
+        productTableView.setItems(productItems);
+    }
+
+    public static void populateTableProducts(TableView<ShopProduct> productTableView, ObservableList<ShopProduct> productItems, TableColumn<ShopProduct, String> nameColumn,
+                                             TableColumn<ShopProduct ,String> brandColumn, TableColumn<ShopProduct, Boolean> availabilityColumn, TableColumn<ShopProduct, Number> priceColumn,
+                                             List<ShopProduct> filteredProducts){
+        productItems.clear();
+        productTableView.getItems().clear();
+        nameColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getProduct().getName()));
+        brandColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getProduct().getBrand()));
+        availabilityColumn.setCellValueFactory(cellData -> new ReadOnlyBooleanWrapper(cellData.getValue().getStock() > 0));
+        priceColumn.setCellValueFactory(cellData -> new ReadOnlyDoubleWrapper(cellData.getValue().getProduct().getPrice()));
         productItems.addAll(filteredProducts);
         productTableView.setItems(productItems);
     }
@@ -69,23 +84,21 @@ public class Presenter {
         productTableView.getItems().clear();
         nameColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getName()));
         brandColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getBrand()));
-        availabilityColumn.setCellValueFactory(cellData -> new ReadOnlyBooleanWrapper(cellData.getValue().getAvailability()));
+        availabilityColumn.setCellValueFactory(cellData -> new ReadOnlyBooleanWrapper(productPresenter.isAvailableInTheChain(cellData.getValue().getId())));
         priceColumn.setCellValueFactory(cellData -> new ReadOnlyDoubleWrapper(cellData.getValue().getPrice()));
-        IProductPresenter productPresenter = new ProductPresenter();
         productItems.addAll(productPresenter.getProducts());
         productTableView.setItems(productItems);
     }
 
-    public static void populateTableProducts(TableView<Product> productTableView, ObservableList<Product> productItems, TableColumn<Product, String> nameColumn,
-                                             TableColumn<Product ,String> brandColumn, TableColumn<Product, Boolean> availabilityColumn, TableColumn<Product, Number> priceColumn,
+    public static void populateTableProducts(TableView<ShopProduct> productTableView, ObservableList<ShopProduct> productItems, TableColumn<ShopProduct, String> nameColumn,
+                                             TableColumn<ShopProduct ,String> brandColumn, TableColumn<ShopProduct, Boolean> availabilityColumn, TableColumn<ShopProduct, Number> priceColumn,
                                              int idShop){
         productItems.clear();
         productTableView.getItems().clear();
-        nameColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getName()));
-        brandColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getBrand()));
-        availabilityColumn.setCellValueFactory(cellData -> new ReadOnlyBooleanWrapper(cellData.getValue().getAvailability()));
-        priceColumn.setCellValueFactory(cellData -> new ReadOnlyDoubleWrapper(cellData.getValue().getPrice()));
-        IProductPresenter productPresenter = new ProductPresenter();
+        nameColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getProduct().getName()));
+        brandColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getProduct().getBrand()));
+        availabilityColumn.setCellValueFactory(cellData -> new ReadOnlyBooleanWrapper(cellData.getValue().getStock() > 0));
+        priceColumn.setCellValueFactory(cellData -> new ReadOnlyDoubleWrapper(cellData.getValue().getProduct().getPrice()));
         productItems.addAll(productPresenter.getProducts(idShop));
         productTableView.setItems(productItems);
     }
