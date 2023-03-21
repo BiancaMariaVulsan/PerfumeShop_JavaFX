@@ -3,6 +3,7 @@ package com.example.perfumeshop.presenter;
 import com.example.perfumeshop.model.Person;
 import com.example.perfumeshop.model.Role;
 import com.example.perfumeshop.view.*;
+import javafx.scene.control.Alert;
 import javafx.util.Callback;
 
 public class LoginPresenter implements ILoginPresenter { ;
@@ -28,9 +29,13 @@ public class LoginPresenter implements ILoginPresenter { ;
         String username = loginView.getUsernameTextField().getText();
         String password = loginView.getPasswordTextField().getText();
         Person person = PersonPresenter.getPersonByUsername(username);
+        if(person == null) {
+            Presenter.initAlarmBox("Error", "Invalid username and password!", Alert.AlertType.ERROR);
+            return;
+        }
         if(!person.getPassword().equals(password)){
-            System.err.println("The password is not correct, please try again!");
-            throw new RuntimeException();
+            Presenter.initAlarmBox("Error", "The password is not correct, please try again!", Alert.AlertType.ERROR);
+            return;
         }
         if (person.getRole().equals(Role.ADMIN)) {
             Callback<Class<?>, Object> controllerFactory = type -> {
@@ -40,8 +45,8 @@ public class LoginPresenter implements ILoginPresenter { ;
                     try {
                         return type.newInstance();
                     } catch (Exception exc) {
-                        System.err.println("Could not load admin controller " + type.getName());
-                        throw new RuntimeException(exc);
+                        Presenter.initAlarmBox("Error", "Could not load admin controller...", Alert.AlertType.ERROR);
+                        throw new RuntimeException(exc.getMessage());
                     }
                 }
             };
@@ -54,8 +59,8 @@ public class LoginPresenter implements ILoginPresenter { ;
                     try {
                         return type.newInstance();
                     } catch (Exception exc) {
-                        System.err.println("Could not load manager controller " + type.getName());
-                        throw new RuntimeException(exc);
+                        Presenter.initAlarmBox("Error", "Could not load manager controller...", Alert.AlertType.ERROR);
+                        throw new RuntimeException(exc.getMessage());
                     }
                 }
             };
@@ -68,8 +73,8 @@ public class LoginPresenter implements ILoginPresenter { ;
                     try {
                         return type.newInstance();
                     } catch (Exception exc) {
-                        System.err.println("Could not load employee controller " + type.getName());
-                        throw new RuntimeException(exc);
+                        Presenter.initAlarmBox("Error", "Could not load employee controller...", Alert.AlertType.ERROR);
+                        throw new RuntimeException(exc.getMessage());
                     }
                 }
             };
