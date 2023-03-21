@@ -92,7 +92,7 @@ public class EmployeeView implements Initializable {
             } catch (NumberFormatException exception) {
                 price = -1;
             }
-            List<Product> filteredItems = productPresenter.filterProducts(brand, availability, price);
+            List<Product> filteredItems = productPresenter.filterProducts(brand, availability, price, idShop);
             Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, filteredItems);
         });
         editButton.setOnAction(e -> {

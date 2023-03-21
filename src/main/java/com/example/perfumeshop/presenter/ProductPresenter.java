@@ -34,8 +34,8 @@ public class ProductPresenter implements IProductPresenter {
                 .collect(Collectors.toList());
     }
 
-    public List<Product> filterProducts(String brand, boolean availability, float price) {
-        List<Product> products = getProducts();
+    public List<Product> filterProducts(String brand, boolean availability, float price, int shopId) {
+        List<Product> products = getProductsMap().get(shopId);
         return products.stream()
                 .filter(it -> brand.equals("") || it.getBrand().contains(brand))
                 .filter(it -> !availability || it.getAvailability())

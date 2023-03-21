@@ -3,9 +3,6 @@ package com.example.perfumeshop.presenter;
 import com.example.perfumeshop.model.Employee;
 import com.example.perfumeshop.model.persistence.EmployeePersistence;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class EmployeePresenter {
     private static final EmployeePersistence employeePersistence = new EmployeePersistence();
     public static boolean addPerson(Employee employee) {

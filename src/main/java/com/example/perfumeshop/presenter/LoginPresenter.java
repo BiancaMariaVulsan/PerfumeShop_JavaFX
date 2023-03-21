@@ -19,7 +19,7 @@ public class LoginPresenter implements ILoginPresenter { ;
             try {
                 return type.newInstance();
             } catch (Exception exc) {
-                System.err.println("Could not load register controller " + type.getName());
+                System.err.println("Could not load register controller..." + type.getName());
                 throw new RuntimeException(exc);
             }
         }
