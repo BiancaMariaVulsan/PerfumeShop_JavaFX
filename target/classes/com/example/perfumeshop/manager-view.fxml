@@ -9,7 +9,7 @@
             <columns>
                 <TableColumn fx:id="nameColumn" prefWidth="158.0" text="Name" />
                 <TableColumn fx:id="brandColumn" prefWidth="199.19998168945312" text="Brand" />
-                <TableColumn fx:id="availabilityColumn" minWidth="9.79998779296875" prefWidth="95.39999389648438" text="Stock" />
+                <TableColumn fx:id="availabilityColumn" minWidth="9.79998779296875" prefWidth="95.39999389648438" text="Availability" />
                 <TableColumn fx:id="priceColumn" prefWidth="83.79998779296875" text="Price" />
             </columns>
         </TableView>
