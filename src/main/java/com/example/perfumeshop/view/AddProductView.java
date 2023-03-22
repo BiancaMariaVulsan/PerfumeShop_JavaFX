@@ -80,6 +80,10 @@ public class AddProductView implements Initializable {
             brandText.setText(productToUpdate.getProduct().getBrand());
             stockText.setText(String.valueOf(productToUpdate.getStock()));
             priceText.setText(String.valueOf(productToUpdate.getProduct().getPrice()));
+
+            nameText.setDisable(true);
+            brandText.setDisable(true);
+            priceText.setDisable(true);
         }
 
         saveButton.setOnAction(e -> {

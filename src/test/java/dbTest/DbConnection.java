@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class DbConnection {
     @Test
     public void testConnection() {
-        ConnectionFactory connectionFactory = new ConnectionFactory();
         var connection = ConnectionFactory.getConnection();
         assertTrue(connection != null);
     }
