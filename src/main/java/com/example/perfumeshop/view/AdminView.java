@@ -52,7 +52,7 @@ public class AdminView implements Initializable {
             Presenter.loadFXML("/com/example/perfumeshop/register-view.fxml", controllerFactory);
         });
         deleteButton.setOnAction(e -> {
-            Person person = personTableView.getSelectionModel().getSelectedItem();
+            var person = personTableView.getSelectionModel().getSelectedItem();
             if(person == null) {
                 Presenter.initAlarmBox("Warning", "Please select the product to be deleted!", Alert.AlertType.WARNING);
                 return;

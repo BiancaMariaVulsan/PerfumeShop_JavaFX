@@ -6,7 +6,7 @@ import com.example.perfumeshop.view.*;
 import javafx.scene.control.Alert;
 import javafx.util.Callback;
 
-public class LoginPresenter implements ILoginPresenter { ;
+public class LoginPresenter { ;
     private final ILoginView loginView;
     public LoginPresenter(ILoginView loginView) {
         this.loginView = loginView;
