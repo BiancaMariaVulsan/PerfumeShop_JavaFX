@@ -1,26 +1,24 @@
-package com.example.perfumeshop.presenter;
+package com.example.perfumeshop.controller;
 
 import com.example.perfumeshop.model.Employee;
 import com.example.perfumeshop.model.Person;
 import com.example.perfumeshop.model.Role;
-import com.example.perfumeshop.model.Shop;
 import com.example.perfumeshop.model.persistence.EmployeePersistence;
 import com.example.perfumeshop.model.persistence.PersonPersistence;
-import com.example.perfumeshop.view.IRegisterView;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class RegisterPresenter implements IRegisterPresenter {
-    private final IRegisterView registerView;
+public class PersonController {
+    private final RegisterController registerView;
+    private static final PersonPersistence personPersistence = new PersonPersistence();
+    private static final EmployeePersistence employeePersistence = new EmployeePersistence();
 
-    public RegisterPresenter(IRegisterView registerView) {
+    public PersonController(RegisterController registerView) {
         this.registerView = registerView;
     }
-    @Override
     public void setProgressIndicator() {
         ArrayList<TextField> textFields = new ArrayList<>();
         textFields.add(registerView.getUsernameTextField());
@@ -40,7 +38,6 @@ public class RegisterPresenter implements IRegisterPresenter {
             });
         }
     }
-    @Override
     public void register() {
         Role role = registerView.getRoleChoiceBox().getValue();
         Person person;
@@ -53,16 +50,15 @@ public class RegisterPresenter implements IRegisterPresenter {
                     registerView.getLastNameTextField().getText(), role, registerView.getUsernameTextField().getText(),
                     registerView.getPasswordTextField().getText());
         }
-        if(PersonPresenter.addPerson(person)) {
-            Presenter.initAlarmBox("Successful registration", "You are successfully registered!", Alert.AlertType.INFORMATION);
+        if(addPerson(person)) {
+            Controller.initAlarmBox("Successful registration", "You are successfully registered!", Alert.AlertType.INFORMATION);
             Stage stage = (Stage) registerView.getRegisterButton().getScene().getWindow();
             stage.close();
         } else {
-            Presenter.initAlarmBox("Error", "An error occurred during the registration, please try again!", Alert.AlertType.ERROR);
+            Controller.initAlarmBox("Error", "An error occurred during the registration, please try again!", Alert.AlertType.ERROR);
         }
     }
 
-    @Override
     public void updatePerson(Person personToUpdate) {
         Role role = registerView.getRoleChoiceBox().getValue();
         PersonPersistence personPersistence = new PersonPersistence();
@@ -80,22 +76,36 @@ public class RegisterPresenter implements IRegisterPresenter {
             successUpdate = personPersistence.update(personToUpdate);
         }
         if(successUpdate) {
-            Presenter.initAlarmBox("Successful registration", "Person successfully updated!", Alert.AlertType.INFORMATION);
+            Controller.initAlarmBox("Successful registration", "Person successfully updated!", Alert.AlertType.INFORMATION);
             Stage stage = (Stage) registerView.getRegisterButton().getScene().getWindow();
             stage.close();
         } else {
-            Presenter.initAlarmBox("Error", "An error occurred during the registration, please try again!", Alert.AlertType.ERROR);
+            Controller.initAlarmBox("Error", "An error occurred during the registration, please try again!", Alert.AlertType.ERROR);
         }
     }
-    @Override
-    public void initShopCheckBox() {
-        List<Shop> shops = ShopPresenter.getShops();
-        for(Shop shop: shops) {
-            registerView.getShopChoiceBox().getItems().add(shop);
+
+    public static boolean addEmloyee(Employee employee) {
+        try {
+            employeePersistence.insert(employee);
+        } catch (Exception e) {
+            return false;
         }
-        registerView.getShopChoiceBox().setValue(shops.get(0)); // suppose there is at least one shop
+        return true;
     }
-    @Override
+
+    private boolean addPerson(Person person) {
+        try {
+            if(person.getRole()!=Role.EMPLOYEE) {
+                personPersistence.insert(person);
+            } else {
+                addEmloyee((Employee) person);
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
     public void enableShopChoiceBox(Role role) {
         if(role.equals(Role.EMPLOYEE)) {
             registerView.getShopChoiceBox().setDisable(false);

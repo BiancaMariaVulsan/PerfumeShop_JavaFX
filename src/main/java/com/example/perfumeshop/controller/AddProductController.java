@@ -1,9 +1,6 @@
-package com.example.perfumeshop.view;
+package com.example.perfumeshop.controller;
 
 import com.example.perfumeshop.model.ShopProduct;
-import com.example.perfumeshop.presenter.IProductPresenter;
-import com.example.perfumeshop.presenter.Presenter;
-import com.example.perfumeshop.presenter.ProductPresenter;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,7 +12,7 @@ import javafx.scene.control.TextField;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AddProductView implements Initializable {
+public class AddProductController implements Initializable {
     @FXML
     private TextField nameText;
     @FXML
@@ -42,12 +39,12 @@ public class AddProductView implements Initializable {
     private final boolean isEditing;
     private ShopProduct productToUpdate;
 
-    IProductPresenter productPresenter = new ProductPresenter(); //todo: change similar to register if needed
+    ProductController productPresenter = new ProductController(); //todo: change similar to register if needed
 
-    public AddProductView(TableView<ShopProduct> productTableView, ObservableList<ShopProduct> productItems,
-                          TableColumn<ShopProduct, String> nameColumn, TableColumn<ShopProduct, String> brandColumn,
-                          TableColumn<ShopProduct, Boolean> availabilityColumn, TableColumn<ShopProduct, Number> priceColumn,
-                          int idShop) {
+    public AddProductController(TableView<ShopProduct> productTableView, ObservableList<ShopProduct> productItems,
+                                TableColumn<ShopProduct, String> nameColumn, TableColumn<ShopProduct, String> brandColumn,
+                                TableColumn<ShopProduct, Boolean> availabilityColumn, TableColumn<ShopProduct, Number> priceColumn,
+                                int idShop) {
         isEditing = false;
         this.productTableView = productTableView;
         this.productItems = productItems;
@@ -58,10 +55,10 @@ public class AddProductView implements Initializable {
         this.idShop = idShop;
     }
 
-    public AddProductView(ShopProduct product, TableView<ShopProduct> productTableView, ObservableList<ShopProduct> productItems,
-                          TableColumn<ShopProduct, String> nameColumn, TableColumn<ShopProduct, String> brandColumn,
-                          TableColumn<ShopProduct, Boolean> availabilityColumn, TableColumn<ShopProduct, Number> priceColumn,
-                          int idShop) {
+    public AddProductController(ShopProduct product, TableView<ShopProduct> productTableView, ObservableList<ShopProduct> productItems,
+                                TableColumn<ShopProduct, String> nameColumn, TableColumn<ShopProduct, String> brandColumn,
+                                TableColumn<ShopProduct, Boolean> availabilityColumn, TableColumn<ShopProduct, Number> priceColumn,
+                                int idShop) {
         isEditing = true;
         this.productTableView = productTableView;
         this.productItems = productItems;
@@ -90,10 +87,10 @@ public class AddProductView implements Initializable {
             if(isEditing) {
 //                productPresenter.updateProduct(productToUpdate.getId(),nameText, brandText, availabilityCheck, priceText, idShop);
                 var products = productPresenter.updateProductInShop(productToUpdate.getProduct(), stockText, idShop);
-                Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, products);
+                Controller.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, products);
             } else {
                 var products = productPresenter.addProduct(nameText, brandText, stockText, priceText, idShop);
-                Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, products);
+                Controller.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, products);
             }
         });
     }

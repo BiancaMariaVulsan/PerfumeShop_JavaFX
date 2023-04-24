@@ -1,11 +1,9 @@
-package com.example.perfumeshop.view;
+package com.example.perfumeshop.controller;
 
 import com.example.perfumeshop.model.Person;
 import com.example.perfumeshop.model.Role;
 import com.example.perfumeshop.model.Shop;
-import com.example.perfumeshop.presenter.IRegisterPresenter;
-import com.example.perfumeshop.presenter.Presenter;
-import com.example.perfumeshop.presenter.RegisterPresenter;
+import com.example.perfumeshop.model.persistence.PersonPersistence;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,10 +12,11 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class RegisterView implements Initializable, IRegisterView
+public class RegisterController implements Initializable
 {
     @FXML
     private ProgressIndicator progressIndicator;
@@ -40,7 +39,7 @@ public class RegisterView implements Initializable, IRegisterView
     @FXML
     private ChoiceBox<Shop> shopChoiceBox;
     
-    private final IRegisterPresenter registerPresenter;
+    private final PersonController registerPresenter;
     private Person personToUpdate;
     private final boolean isEditing;
     @FXML
@@ -53,16 +52,18 @@ public class RegisterView implements Initializable, IRegisterView
     @FXML
     private TableColumn<Person, String> roleColumn;
 
-    public RegisterView() {
+    private static final PersonPersistence personPersistence = new PersonPersistence();
+
+    public RegisterController() {
         this.isEditing = false;
-        this.registerPresenter = new RegisterPresenter(this);
+        this.registerPresenter = new PersonController(this);
     }
 
-    public RegisterView(Person item, TableView<Person> personTableView, ObservableList<Person> personItems,
-                        TableColumn<Person, String> firstNameColumn, TableColumn<Person, String> lastNameColumn,
-                        TableColumn<Person, String> roleColumn) {
+    public RegisterController(Person item, TableView<Person> personTableView, ObservableList<Person> personItems,
+                              TableColumn<Person, String> firstNameColumn, TableColumn<Person, String> lastNameColumn,
+                              TableColumn<Person, String> roleColumn) {
         this.isEditing = true;
-        this.registerPresenter = new RegisterPresenter(this);
+        this.registerPresenter = new PersonController(this);
         this.personToUpdate = item;
         this.personTableView = personTableView;
         this.personItems = personItems;
@@ -71,11 +72,11 @@ public class RegisterView implements Initializable, IRegisterView
         this.roleColumn = roleColumn;
     }
 
-    public RegisterView(TableView<Person> personTableView, ObservableList<Person> personItems,
-                        TableColumn<Person, String> firstNameColumn, TableColumn<Person, String> lastNameColumn,
-                        TableColumn<Person, String> roleColumn) {
+    public RegisterController(TableView<Person> personTableView, ObservableList<Person> personItems,
+                              TableColumn<Person, String> firstNameColumn, TableColumn<Person, String> lastNameColumn,
+                              TableColumn<Person, String> roleColumn) {
         this.isEditing = false;
-        this.registerPresenter = new RegisterPresenter(this);
+        this.registerPresenter = new PersonController(this);
         this.personTableView = personTableView;
         this.personItems = personItems;
         this.firstNameColumn = firstNameColumn;
@@ -88,7 +89,7 @@ public class RegisterView implements Initializable, IRegisterView
         registerButton.setDisable(true);
         registerPresenter.setProgressIndicator();
         initRoleCheckBox();
-        registerPresenter.initShopCheckBox();
+        initShopCheckBox();
 
         if(this.isEditing)
         {
@@ -101,7 +102,7 @@ public class RegisterView implements Initializable, IRegisterView
         }
 
         exitButton.setOnAction(actionEvent -> {
-            Optional<ButtonType> result = Presenter.initAlarmBox("Exit", "Are you sure you want to exit? All progress will be lost.", Alert.AlertType.CONFIRMATION);
+            Optional<ButtonType> result = Controller.initAlarmBox("Exit", "Are you sure you want to exit? All progress will be lost.", Alert.AlertType.CONFIRMATION);
             if(result.get() == ButtonType.OK) {
                 Stage stage = (Stage) registerButton.getScene().getWindow();
                 stage.close();
@@ -119,10 +120,10 @@ public class RegisterView implements Initializable, IRegisterView
         registerButton.setOnAction(actionEvent -> {
             if(!isEditing) {
                 registerPresenter.register();
-                Presenter.populateTablePersons(personTableView, personItems, firstNameColumn, lastNameColumn, roleColumn);
+                Controller.populateTablePersons(personTableView, personItems, firstNameColumn, lastNameColumn, roleColumn);
             } else {
                 registerPresenter.updatePerson(personToUpdate);
-                Presenter.populateTablePersons(personTableView, personItems, firstNameColumn, lastNameColumn, roleColumn);
+                Controller.populateTablePersons(personTableView, personItems, firstNameColumn, lastNameColumn, roleColumn);
             }
         });
         roleChoiceBox.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
@@ -136,10 +137,17 @@ public class RegisterView implements Initializable, IRegisterView
         roleChoiceBox.setValue(Role.EMPLOYEE);
     }
 
+    public void initShopCheckBox() {
+        List<Shop> shops = ShopController.getShops();
+        for(Shop shop: shops) {
+            getShopChoiceBox().getItems().add(shop);
+        }
+        getShopChoiceBox().setValue(shops.get(0)); // suppose there is at least one shop
+    }
+
     public ProgressIndicator getProgressIndicator() {
         return progressIndicator;
     }
-
     public TextField getUsernameTextField() {
         return usernameTextField;
     }

@@ -1,9 +1,6 @@
-package com.example.perfumeshop.view;
+package com.example.perfumeshop.controller;
 
 import com.example.perfumeshop.model.Product;
-import com.example.perfumeshop.presenter.IProductPresenter;
-import com.example.perfumeshop.presenter.Presenter;
-import com.example.perfumeshop.presenter.ProductPresenter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,7 +10,7 @@ import javafx.scene.control.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ManagerView implements Initializable {
+public class ManagerController implements Initializable {
     @FXML
     private TableView<Product> productTableView;
     private final ObservableList<Product> productItems = FXCollections.observableArrayList();
@@ -42,23 +39,23 @@ public class ManagerView implements Initializable {
     @FXML
     private Button sortPriceButton;
 
-    IProductPresenter productPresenter = new ProductPresenter();
+    private ProductController productPresenter = new ProductController();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn);
+        Controller.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn);
 
         filterButton.setOnAction(e -> {
             var filteredItems = productPresenter.filterProducts(nameFilter, brandFilter, availabilityFilter, priceFilter);
-            Presenter.populateTableProductsFiltered(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, filteredItems);
+            Controller.populateTableProductsFiltered(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, filteredItems);
         });
         sortNameButton.setOnAction(e -> {
             var sortedItems = productPresenter.sortByName();
-            Presenter.populateTableProductsFiltered(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, sortedItems);
+            Controller.populateTableProductsFiltered(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, sortedItems);
         });
         sortPriceButton.setOnAction(e -> {
             var sortedItems = productPresenter.sortByPrice();
-            Presenter.populateTableProductsFiltered(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, sortedItems);
+            Controller.populateTableProductsFiltered(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, sortedItems);
         });
     }
 }

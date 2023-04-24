@@ -1,8 +1,6 @@
-package com.example.perfumeshop.view;
+package com.example.perfumeshop.controller;
 
 import com.example.perfumeshop.model.ShopProduct;
-import com.example.perfumeshop.presenter.Presenter;
-import com.example.perfumeshop.presenter.ProductPresenter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,7 +11,7 @@ import javafx.util.Callback;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class EmployeeView implements Initializable {
+public class EmployeeController implements Initializable {
     @FXML
     private TableView<ShopProduct> productTableView;
     private final ObservableList<ShopProduct> productItems = FXCollections.observableArrayList();
@@ -43,19 +41,19 @@ public class EmployeeView implements Initializable {
     private TextField priceFilter;
 
     private final int idShop;
-    private final ProductPresenter productPresenter = new ProductPresenter();
+    private final ProductController productPresenter = new ProductController();
 
-    public EmployeeView(int isShop) {
+    public EmployeeController(int isShop) {
         this.idShop = isShop;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, idShop);
+        Controller.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, idShop);
         addButton.setOnAction(e -> {
             Callback<Class<?>, Object> controllerFactory = type -> {
-                if (type == AddProductView.class) {
-                    return new AddProductView(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, idShop);
+                if (type == AddProductController.class) {
+                    return new AddProductController(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, idShop);
                 } else {
                     try {
                         return type.newInstance();
@@ -65,25 +63,25 @@ public class EmployeeView implements Initializable {
                     }
                 }
             };
-            Presenter.loadFXML("/com/example/perfumeshop/add-product-view.fxml", controllerFactory);
+            Controller.loadFXML("/com/example/perfumeshop/add-product-view.fxml", controllerFactory);
         });
         deleteButton.setOnAction(e -> {
             var products = productPresenter.deleteProduct(productTableView.getSelectionModel().getSelectedItem().getProduct(), idShop);
-            Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, products);
+            Controller.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, products);
         });
         filterButton.setOnAction(e -> {
             var filteredItems = productPresenter.filterProducts(brandFilter, availabilityFilter, priceFilter, idShop);
-            Presenter.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, filteredItems);
+            Controller.populateTableProducts(productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, filteredItems);
         });
         editButton.setOnAction(e -> {
             ShopProduct product = productTableView.getSelectionModel().getSelectedItem();
             if(product == null) {
-                Presenter.initAlarmBox("Warning", "Please select the product to be updated!", Alert.AlertType.WARNING);
+                Controller.initAlarmBox("Warning", "Please select the product to be updated!", Alert.AlertType.WARNING);
                 return;
             }
             Callback<Class<?>, Object> controllerFactory = type -> {
-                if (type == AddProductView.class) {
-                    return new AddProductView(product, productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, idShop);
+                if (type == AddProductController.class) {
+                    return new AddProductController(product, productTableView, productItems, nameColumn, brandColumn, availabilityColumn, priceColumn, idShop);
                 } else {
                     try {
                         return type.newInstance();
@@ -93,7 +91,7 @@ public class EmployeeView implements Initializable {
                     }
                 }
             };
-            Presenter.loadFXML("/com/example/perfumeshop/add-product-view.fxml", controllerFactory);
+            Controller.loadFXML("/com/example/perfumeshop/add-product-view.fxml", controllerFactory);
         });
     }
 }

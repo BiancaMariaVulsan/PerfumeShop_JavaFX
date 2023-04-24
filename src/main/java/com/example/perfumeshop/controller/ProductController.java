@@ -1,4 +1,4 @@
-package com.example.perfumeshop.presenter;
+package com.example.perfumeshop.controller;
 
 import com.example.perfumeshop.model.Product;
 import com.example.perfumeshop.model.ShopProduct;
@@ -10,22 +10,20 @@ import javafx.scene.control.TextField;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class ProductPresenter implements IProductPresenter {
+public class ProductController {
     ProductPersistence productPersistence = new ProductPersistence();
     Map<Integer, List<ShopProduct>> productsMap;
 
-    public ProductPresenter() {
+    public ProductController() {
         if (this.productsMap == null) {
             this.productsMap = getProductsMap();
         }
     }
 
-    @Override
     public List<Product> getProducts() {
         return productPersistence.findAll();
     }
 
-    @Override
     public List<ShopProduct> getProducts(int idShop) {
         return productsMap.get(idShop);
     }
@@ -40,7 +38,6 @@ public class ProductPresenter implements IProductPresenter {
         return false;
     }
 
-    @Override
     public List<Product> filterProducts(TextField nameFilter, TextField brandFilter, CheckBox availabilityFilter, TextField priceFilter) {
         String name = nameFilter.getText();
         String brand = brandFilter.getText();
@@ -69,16 +66,6 @@ public class ProductPresenter implements IProductPresenter {
                 .collect(Collectors.toList());
     }
 
-    public boolean isAvailableInTheShop(int productId, int shopId) {
-        for(ShopProduct product : productsMap.get(shopId)) {
-            if(product.getProduct().getId() == productId) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
     public List<ShopProduct> filterProducts(TextField brandFilter, CheckBox availabilityFilter, TextField priceFilter, int shopId) {
         String brand = brandFilter.getText();
         boolean availability = availabilityFilter.isSelected();
@@ -102,7 +89,6 @@ public class ProductPresenter implements IProductPresenter {
                 .collect(Collectors.toList());
     }
 
-    @Override
     public List<ShopProduct> addProduct(TextField nameText, TextField brandText, TextField stockText, TextField priceText, int shopId) {
         try {
             int stock = Integer.parseInt(stockText.getText());
@@ -117,37 +103,24 @@ public class ProductPresenter implements IProductPresenter {
             productPersistence.insertProductInShop(shopId, insertedProduct.getId(), stock);
             productsMap = getProductsMap();
         } catch (Exception e) {
-            Presenter.initAlarmBox("Error", "Something went wrong when trying to add the product. Please make sure you insert valid properties!", Alert.AlertType.ERROR);
+            Controller.initAlarmBox("Error", "Something went wrong when trying to add the product. Please make sure you insert valid properties!", Alert.AlertType.ERROR);
         }
         return productsMap.get(shopId);
     }
 
-    @Override
     public List<ShopProduct> deleteProduct(Product product, int shopId) {
         if(product == null) {
-            Presenter.initAlarmBox("Warning", "Please select the product to be deleted!", Alert.AlertType.WARNING);
+            Controller.initAlarmBox("Warning", "Please select the product to be deleted!", Alert.AlertType.WARNING);
         } else {
             try {
 //            productPersistence.delete(product);
                 productPersistence.deleteProductFromShop(shopId, product.getId());
                 productsMap = getProductsMap();
             } catch (Exception e) {
-                Presenter.initAlarmBox("Warning", "Something went wrong!", Alert.AlertType.WARNING);
+                Controller.initAlarmBox("Warning", "Something went wrong!", Alert.AlertType.WARNING);
             }
         }
         return  productsMap.get(shopId);
-    }
-
-    @Override
-    public boolean updateProduct(int productToUpdateId, TextField nameText, TextField brandText, CheckBox availabilityCheck, TextField priceText, int shopId) {
-        try {
-            Product product = new Product(productToUpdateId, nameText.getText(), brandText.getText(), Double.parseDouble(priceText.getText()));
-            productPersistence.update(product);
-            return true;
-        } catch (Exception e) {
-            Presenter.initAlarmBox("Error", "Something went wrong when trying to update the product. Please make sure you insert valid properties!", Alert.AlertType.ERROR);
-            return false;
-        }
     }
 
     public List<ShopProduct> updateProductInShop(Product productToUpdate, TextField stock, int shopId) {
@@ -161,17 +134,15 @@ public class ProductPresenter implements IProductPresenter {
                 }
             }
         } catch (Exception e) {
-            Presenter.initAlarmBox("Error", "Something went wrong when trying to update the stock of the the product. Please make sure you insert valid properties!", Alert.AlertType.ERROR);
+            Controller.initAlarmBox("Error", "Something went wrong when trying to update the stock of the the product. Please make sure you insert valid properties!", Alert.AlertType.ERROR);
         }
         return productsMap.get(shopId);
     }
 
-    @Override
     public List<Product> sortByName() {
         return this.getProducts().stream().sorted(Comparator.comparing(Product::getName)).toList();
     }
 
-    @Override
     public List<Product> sortByPrice() {
         return this.getProducts().stream().sorted(Comparator.comparing(Product::getPrice)).toList();
     }
